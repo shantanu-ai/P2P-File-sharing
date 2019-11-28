@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="492bc498-109a-400e-a2e3-56e5674704de" name="Default Changelist" comment="" />
+    <list default="true" id="492bc498-109a-400e-a2e3-56e5674704de" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/ClientSocket.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/PEER2Dir/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/PEER2Dir/summary.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1/TCP-connection-1-peer-2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER3Dir/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER3Dir/summary.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/TCP-connection-1-peer-3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/PEER4Dir/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/PEER4Dir/summary.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/TCP-connection-1-peer-4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/PEER5Dir/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/PEER5Dir/summary.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/TCP-connection-1-peer-5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/PEER6Dir/3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/PEER6Dir/summary.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/TCP-connection-1-peer-6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/META-INF/P2p_Final.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/FileOwner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/FileOwner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,11 +58,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1UDVtCCiSHzKfJqR86zsueQfKYK" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Owner" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
@@ -77,11 +123,26 @@
       <option name="presentableId" value="Default" />
       <updated>1574891365016</updated>
       <workItem from="1574891366662" duration="36682000" />
+      <workItem from="1574960590937" duration="13000" />
+      <workItem from="1574960635562" duration="1604000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

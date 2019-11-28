@@ -318,10 +318,10 @@ public class FileOwner {
 
     public static void main(String[] args) {
         int owner_port = 0;
-        String file_name = "";
+        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall 19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/TCP-connection-1.pdf";
         if (args.length > 0) {
             owner_port = Integer.parseInt(args[0]);
-            file_name = args[1];
+            // file_name = args[1];
         }
         System.out.println("Owner Port: " + owner_port + " File Name: " + file_name);
         new FileOwner(owner_port, file_name).initiateOwner();

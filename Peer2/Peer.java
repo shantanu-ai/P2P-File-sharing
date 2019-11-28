@@ -6,101 +6,78 @@ import java.lang.*;
 
 class ClientSocket extends Thread {
 
-    protected int peerId;
+    protected int peer_id;
     protected Socket socket;
-    protected ObjectOutputStream oStream;
-    protected ObjectInputStream iStream;
+    protected ObjectOutputStream objectOutputStream;
+    protected ObjectInputStream objectInputStream;
 
     public String peerName = this.getName();
 
-    protected HashMap<Integer, byte[]> workingChunk;
+    protected HashMap<Integer, byte[]> current_block;
 
-    protected String fileName = "Test.dat";
-
-    public void InitiateFileBlock(HashMap<Integer, byte[]> fileChunk) {
-        this.workingChunk = fileChunk;
+    public ClientSocket(int _peer_id, HashMap<Integer, byte[]> _list_block_file) {
+        this.peer_id = _peer_id;
+        this.current_block = _list_block_file;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void intialiseSocket(Socket socket) {
-        this.socket = socket;
-        System.out.println("[" + peerName + "] get connected from " + socket.getPort());
+    private void saveChunkFile(int x, byte[] chunk) {
         try {
-            oStream = new ObjectOutputStream(this.socket.getOutputStream());
-            iStream = new ObjectInputStream(this.socket.getInputStream());
+            FileOutputStream fileOutputStream =
+                    new FileOutputStream("PEER" + this.peer_id + "Dir/" + x, false);
+            fileOutputStream.write(chunk);
+            fileOutputStream.flush();
+            fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void send(Object message) throws IOException {
-        oStream.writeObject(message);
-        oStream.flush();
-        oStream.reset();
+
+    public void intialiseSocket(Socket socket) {
+        this.socket = socket;
+        System.out.println("[" + peerName + "] get connected from " + socket.getPort());
+        try {
+            objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(this.socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void send(int message) throws IOException {
-        oStream.writeInt(message);
-        oStream.flush();
-        oStream.reset();
+    public void transmitToPeer(Object message) throws IOException {
+        objectOutputStream.writeObject(message);
+        objectOutputStream.flush();
+        objectOutputStream.reset();
     }
 
-    public void initiatePeerId(int id) {
-        this.peerId = id;
+    public void transmitToPeer(int message) throws IOException {
+        objectOutputStream.writeInt(message);
+        objectOutputStream.flush();
+        objectOutputStream.reset();
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                System.out.println("[" + this.peerName + "] Peer is listening command:");
-                Object payload = this.iStream.readObject();
-                assert (payload instanceof String);
-                String message = (String) payload;
-                System.out.println("[" + this.peerName + "] Received message (" + message + ")");
-                int p = -1;
-                switch (message) {
+                String msg = printCommands();
+                int id = -1;
+                switch (msg) {
                     case "LIST":
-                        // Send chunk list
-                        ArrayList<Integer> q = new ArrayList<Integer>(this.workingChunk.size());
-                        for (Integer key : this.workingChunk.keySet()) {
-                            q.add(key);
-                        }
-                        send(q);
+                        performListOperation();
                         break;
                     case "REQUEST":
-                        // Read first int as chunk number
-                        p = this.iStream.readInt();
-                        // Send that chunk
-                        send(p);
-                        send(this.workingChunk.get(p));
+                        requestChunk(id);
                         break;
                     case "ASK":
-                        p = this.iStream.readInt();
-                        if (this.workingChunk.containsKey(p)) {
-                            send(1);
-                        } else {
-                            send(0);
-                        }
+                        askChunk(id);
                         break;
                     case "DATA":
-                        // Read first int as chunk number
-                        p = this.iStream.readInt();
-                        // Save received data
-                        byte[] chunk = (byte[]) this.iStream.readObject();
-                        if (!this.workingChunk.containsKey(p)) {
-                            workingChunk.put(p, chunk);
-                            System.out.println("Received Chunk #" + p);
-                            saveChunkFile(p, chunk);
-                        }
+                        saveRecievedData(id);
                         break;
                     case "CLOSE":
-                        // Close stream and exit thread
-                        oStream.close();
-                        iStream.close();
+                        objectOutputStream.close();
+                        objectInputStream.close();
                         return;
                 }
             } catch (ClassNotFoundException | IOException e) {
@@ -111,15 +88,45 @@ class ClientSocket extends Thread {
         }
     }
 
-    private void saveChunkFile(int x, byte[] chunk) {
-        try {
-            FileOutputStream fso = new FileOutputStream("PEER" + this.peerId + "Dir/" + x, false);
-            fso.write(chunk);
-            fso.flush();
-            fso.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void saveRecievedData(int id) throws IOException, ClassNotFoundException {
+        id = this.objectInputStream.readInt();
+        byte[] chunk = (byte[]) this.objectInputStream.readObject();
+        if (!this.current_block.containsKey(id)) {
+            current_block.put(id, chunk);
+            System.out.println("Received Chunk #" + id);
+            saveChunkFile(id, chunk);
         }
+    }
+
+    private void askChunk(int id) throws IOException {
+        if (this.current_block.containsKey(this.objectInputStream.readInt())) {
+            transmitToPeer(1);
+        } else {
+            transmitToPeer(0);
+        }
+    }
+
+    private void requestChunk(int id) throws IOException {
+        id = this.objectInputStream.readInt();
+        // Send that chunk
+        transmitToPeer(id);
+        transmitToPeer(this.current_block.get(id));
+    }
+
+    private void performListOperation() throws IOException {
+        ArrayList<Integer> q = new ArrayList<Integer>(this.current_block.size());
+        for (Integer key : this.current_block.keySet()) {
+            q.add(key);
+        }
+        transmitToPeer(q);
+    }
+
+    private String printCommands() throws IOException, ClassNotFoundException {
+        System.out.println("[" + this.peerName + "] Peer is listening command:");
+        Object msgObj = this.objectInputStream.readObject();
+        String msg = (String) msgObj;
+        System.out.println("[" + this.peerName + "] Received message (" + msg + ")");
+        return msg;
     }
 }
 
@@ -257,8 +264,6 @@ public class Peer extends Thread {
 
     private void initiatePeer(ClientSocket peer, Socket _socket) {
         peer.intialiseSocket(_socket);
-        peer.initiatePeerId(Peer.peer_id);
-        peer.InitiateFileBlock(list_block_file);
         peer.start();
     }
 
@@ -289,10 +294,13 @@ public class Peer extends Thread {
     private void setConnectionToPeer() throws IOException {
         peer_skt = new ServerSocket(this.peer_self_port);
         while (true) {
-            ClientSocket peer = new ClientSocket();
+
+            ClientSocket peer = new ClientSocket(Peer.peer_id, list_block_file);
+            Socket p = null;
             try {
                 System.out.println("Peer is listening at Port " + peer_skt.getLocalPort());
-                initiatePeer(peer, peer_skt.accept());
+                p = peer_skt.accept();
+                initiatePeer(peer, p);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -325,96 +333,92 @@ public class Peer extends Thread {
                 + base_name.substring(base_name.lastIndexOf('.') + 1);
     }
 
-    private void pushChunkToPeer(ObjectOutputStream objectOutputStreamUp)
-            throws IOException, InterruptedException {
-        for (Integer block_index : Peer.block_indx) {
-            int bid = block_index;
-            if (!Peer.list_block_file.containsKey(bid)) {
-                continue;
-            }
-            System.out.print(bid + " ");
-            TransmitMessageToOwner("DATA", objectOutputStreamUp);
-            TransmitMessageToOwner(bid, objectOutputStreamUp);
-            transmitData(objectOutputStreamUp, Peer.list_block_file.get(bid));
+    public void executeRun()
+            throws IOException,
+            InterruptedException,
+            ClassNotFoundException {
+
+        System.out.println("==================");
+        Thread.sleep(10000);
+        System.out.println("Establishing upload...");
+        System.out.println("Establishing download...");
+
+        Socket skt_up = new Socket("localhost", port_UL);
+        ObjectOutputStream objectOutputStreamUp = new ObjectOutputStream(skt_up.getOutputStream());
+
+        Socket skt_dwn = new Socket("localhost", port_DL);
+        ObjectOutputStream objectOutputStreamDwn = new ObjectOutputStream(skt_dwn.getOutputStream());
+        ObjectInputStream objectInputStreamDwn = new ObjectInputStream(skt_dwn.getInputStream());
+
+        System.out.println("Connection Established!");
+        while (!checkChunk()) {
+            processChunk(objectOutputStreamUp, objectOutputStreamDwn, objectInputStreamDwn);
+            Thread.sleep(1000);
         }
-        System.out.println();
-        System.out.println("[" + Peer.peer_name + "] completed uploading to Peer!!");
-        Thread.sleep(1000);
     }
 
-    private void printBlockListFromPeer(ObjectInputStream iDownStream)
+    private void processChunk(ObjectOutputStream objectOutputStreamUp,
+                              ObjectOutputStream objectOutputStreamDwn,
+                              ObjectInputStream objectInputStreamDwn)
             throws IOException, ClassNotFoundException {
-        ArrayList<Integer> c = (ArrayList<Integer>) iDownStream.readObject();
-        for (int i = 0; i < c.size(); i++) {
-            int q = c.get(i);
+        System.out.println("Received blocks from peer");
+        TransmitMessageToOwner("LIST", objectOutputStreamDwn);
+        ArrayList<Integer> chunks = (ArrayList<Integer>) objectInputStreamDwn.readObject();
+        for (int i = 0; i < chunks.size(); i++) {
+            int q = chunks.get(i);
             if (Peer.list_block_file.containsKey(q)) {
                 System.out.print(q + "=>" + q + "\t");
             } else {
                 System.out.print(q + "=> NEW\t");
             }
         }
+        System.out.println();
+        sendBlocksToPeers(objectOutputStreamDwn, objectInputStreamDwn);
+        pushFileBlock(objectOutputStreamUp);
     }
 
-    private void processBlockIndex(ObjectInputStream objectInputStream,
-                                   ObjectOutputStream objectOutputStreamDown)
-            throws IOException, ClassNotFoundException {
-        for (int x = 0; x < Peer.block_indx.size(); x++) {
-            int index = Peer.block_indx.get(x);
-            if (Peer.list_block_file.containsKey(index)) {
+    private void pushFileBlock(ObjectOutputStream objectOutputStreamUp)
+            throws IOException {
+        System.out.println("[" + Peer.peer_name + "] completed pulling from neighbor...");
+        System.out.println("Initiated pushing block list...");
+        for (Integer block_index : Peer.block_indx) {
+            int q = block_index;
+            if (!Peer.list_block_file.containsKey(q)) {
                 continue;
             }
-            System.out.println("[" + Peer.peer_name + "] Request PEER" +
-                    peer_DL + " block #" + index);
-            TransmitMessageToOwner("ASK", objectOutputStreamDown);
-            TransmitMessageToOwner(index, objectOutputStreamDown);
-            if (objectInputStream.readInt() == 1) {
-                getChunkFromThatPeer(objectInputStream, objectOutputStreamDown, index, x);
-
-            } else {
-                System.out.println("[" + Peer.peer_name + "] PEER"
-                        + peer_DL + " doesn't have block #" + index);
-            }
+            System.out.print(q + " ");
+            TransmitMessageToOwner("DATA", objectOutputStreamUp);
+            TransmitMessageToOwner(q, objectOutputStreamUp);
+            transmitData(objectOutputStreamUp, Peer.list_block_file.get(q));
         }
+        System.out.println();
+        System.out.println("[" + Peer.peer_name + "] completed pushing!! sleep 1sec.");
     }
 
-    private void getChunkFromThatPeer(ObjectInputStream objectInputStream,
-                                      ObjectOutputStream objectOutputStreamDown, int index, int i)
+    private void sendBlocksToPeers(ObjectOutputStream objectOutputStreamDwn,
+                                   ObjectInputStream objectInputStreamDwn)
             throws IOException, ClassNotFoundException {
-        TransmitMessageToOwner("REQUEST", objectOutputStreamDown);
-        TransmitMessageToOwner(index, objectOutputStreamDown);
-        int x = objectInputStream.readInt();
-        byte[] chunk = (byte[]) objectInputStream.readObject();
-        Peer.list_block_file.put(x, chunk);
-        System.out.println("Received Chunk #" + block_indx.get(i) +
-                " from Peer " + peer_DL);
-    }
+        for (int i = 0; i < Peer.block_indx.size(); i++) {
+            int q = Peer.block_indx.get(i);
+            if (Peer.list_block_file.containsKey(q)) {
+                continue;
+            }
 
-
-    public void executeRun()
-            throws IOException,
-            InterruptedException,
-            ClassNotFoundException {
-        Socket upSock = new Socket("localhost", port_UL);
-        ObjectOutputStream objectOutputStreamUp = new ObjectOutputStream(upSock.getOutputStream());
-
-        Socket downSock = new Socket("localhost", port_DL);
-        ObjectOutputStream objectOutputStreamDown = new ObjectOutputStream(downSock.getOutputStream());
-        ObjectInputStream objectInputStream = new ObjectInputStream (downSock.getInputStream());
-
-        System.out.println("==================");
-        Thread.sleep(10000);
-        System.out.println("Initiating upload connection...");
-        System.out.println("Initiating download connection...");
-        System.out.println("Connection Established!!");
-        while (!checkChunk()) {
-            System.out.println("Received Block list from neighbor");
-            TransmitMessageToOwner("LIST", objectOutputStreamDown);
-            printBlockListFromPeer(objectInputStream);
-            System.out.println();
-            processBlockIndex(objectInputStream, objectOutputStreamDown);
-            System.out.println("[" + Peer.peer_name + "] Finished pulling...");
-            System.out.println("Start pushing chunk list...");
-            pushChunkToPeer(objectOutputStreamUp);
+            System.out.println("[" + Peer.peer_name + "] REQUEST PEER" + peer_DL + " Chunk #" + q);
+            TransmitMessageToOwner("ASK", objectOutputStreamDwn);
+            TransmitMessageToOwner(q, objectOutputStreamDwn);
+            if (objectInputStreamDwn.readInt() == 1) { //Means peer has that chunk
+                TransmitMessageToOwner("REQUEST", objectOutputStreamDwn);
+                TransmitMessageToOwner(q, objectOutputStreamDwn);
+                int x = objectInputStreamDwn.readInt();
+                byte[] chunk = (byte[]) objectInputStreamDwn.readObject();
+                Peer.list_block_file.put(x, chunk);
+                System.out.println("Received Chunk #" +
+                        block_indx.get(i) + " from Peer " + peer_DL);
+            } else {
+                System.out.println("[" + Peer.peer_name + "] PEER" +
+                        peer_DL + " doesn't have Chunk #" + q);
+            }
         }
     }
 
@@ -443,103 +447,18 @@ public class Peer extends Thread {
                 @Override
                 public void run() {
                     try {
-                        System.out.println("==================");
-                        Thread.sleep(10000);
-                        System.out.println("Making upload connection...");
-                        Socket upSock = new Socket("localhost", port_UL);
-                        ObjectOutputStream oUpStream = new ObjectOutputStream(upSock.getOutputStream());
-                        System.out.println("Making download connection...");
-                        Socket downSock = new Socket("localhost", port_DL);
-                        ObjectOutputStream oDownStream = new ObjectOutputStream(downSock.getOutputStream());
-                        ObjectInputStream iDownStream = new ObjectInputStream(downSock.getInputStream());
-                        System.out.println("Connection Made!");
-                        while (!checkChunk()) {
-                            System.out.println("Got chunk list from neighbor");
-                            TransmitMessageToOwner("LIST", oDownStream);
-                            ArrayList<Integer> c = (ArrayList<Integer>) iDownStream.readObject();
-                            for (int i =0 ; i < c.size(); i++ ) {
-                                int q = c.get(i);
-                                if(Peer.list_block_file.containsKey(q)) {
-                                    System.out.print(q + "=>" + q + "\t");
-                                } else {
-                                    System.out.print(q + "=> NEW\t");
-                                }
-                            }
-                            System.out.println();
-                            for (int i = 0; i < Peer.block_indx.size(); i++) {
-                                int q = Peer.block_indx.get(i);
-                                if (Peer.list_block_file.containsKey(q)) {
-                                    continue;
-                                }
-
-                                System.out.println("[" + Peer.peer_name + "] Ask PEER" + peer_DL + " Chunk #" + q);
-                                TransmitMessageToOwner("ASK", oDownStream);
-                                TransmitMessageToOwner(q, oDownStream);
-                                if (iDownStream.readInt() == 1) { //Means peer has that chunk
-                                    TransmitMessageToOwner( "REQUEST", oDownStream);
-                                    TransmitMessageToOwner(q, oDownStream);
-                                    int x = iDownStream.readInt();
-                                    byte[] chunk = (byte[]) iDownStream.readObject();
-                                    Peer.list_block_file.put(x, chunk);
-                                    System.out.println("Received Chunk #" +
-                                            block_indx.get(i) + " from Peer " + peer_DL);
-                                } else {
-                                    System.out.println("[" + Peer.peer_name + "] PEER" +
-                                            peer_DL + " doesn't have Chunk #" + q);
-                                }
-                            }
-                            System.out.println("[" + Peer.peer_name + "] Finished pulling...");
-                            System.out.println("Start pushing chunk list...");
-                            for (Integer aChunkIndex : Peer.block_indx) {
-                                int q = aChunkIndex;
-                                if (!Peer.list_block_file.containsKey(q)) {
-                                    continue;
-                                }
-                                System.out.print(q + " ");
-                                TransmitMessageToOwner("DATA", oUpStream);
-                                TransmitMessageToOwner(q, oUpStream);
-                                transmitData(oUpStream, Peer.list_block_file.get(q));
-                            }
-                            System.out.println();
-                            System.out.println("[" + Peer.peer_name + "] Finished pushing, sleep 1sec.");
-                            Thread.sleep(1000);
-                        }
+                        executeRun();
                     } catch (IOException | ClassNotFoundException | InterruptedException e) {
                         e.printStackTrace();
                     }
 
                 }
-//                public void run() {
-//                    try {
-//                        executeRun();
-//                    } catch (IOException | InterruptedException | ClassNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
             }).start();
 
             while (peer_self_port < 0) {
                 Thread.sleep(500);
             }
-            peer_skt = new ServerSocket(this.peer_self_port);
-
-            while (true) {
-
-                ClientSocket localDaemon = new ClientSocket();
-                Socket skt = null;
-                try {
-                    System.out.println("Peer is listening at Port " + peer_skt.getLocalPort());
-
-                    skt = peer_skt.accept();
-                    localDaemon.intialiseSocket(skt);
-                    localDaemon.initiatePeerId(Peer.peer_id);
-                    localDaemon.InitiateFileBlock(list_block_file);
-                    localDaemon.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            setConnectionToPeer();
 
         } catch (IOException | ClassNotFoundException | InterruptedException e) {
             e.printStackTrace();
