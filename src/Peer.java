@@ -4,6 +4,53 @@ import java.net.Socket;
 import java.util.*;
 import java.lang.*;
 
+class Constants {
+    public static final String LIST = "LIST";
+    public static final String REQUEST = "REQUEST";
+    public static final String ASK = "ASK";
+    public static final String DATA = "DATA";
+    public static final String CLOSE = "CLOSE";
+    public static final String PEER = "PEER";
+    public static final String DIR = "Dir/";
+    public static final String BRACE_OPEN = "[";
+    public static final String BRACE_CLOSE = "] get connected from ";
+    public static final String SESSION_ENDED = "]: Session ended.";
+    public static final String RECIEVED_CHUNK = "Received Chunk #";
+    public static final String IS_LISTENING = "] Peer is listening command:";
+    public static final String BRACKET_CLOSE = ")";
+    public static final String RECEIVED_MESSAGE = "] Received message (";
+    public static final String RECIEVED_BLOCK = "Received Block #";
+    public static final String FROM_OWNER = " from owner";
+    public static final String CONFIG = "Config 2 ";
+    public static final String SPACE = " ";
+    public static final String DIR_1 = "Dir";
+    public static final String CONGO = "CONGO !! [";
+    public static final String DOWNLOAD_COMPLETION = "] has completed downloading the file!!";
+    public static final String SUMMARY_FILE = "Dir/summary.txt";
+    public static final String PEER_LISTENING = "Peer is listening at Port ";
+    public static final String BOOTSTRAP_FINAL = "] Ask bootstrap server for neighbors:";
+    public static final String ESTABLISHING_UPLOAD = "Establishing upload...";
+    public static final String ESTABLISHING_DOWNLOAD = "Establishing download...";
+    public static final String ESTABLISHED_CONNECTION = "Connection established";
+    public static final String LOCALHOST = "localhost";
+    public static final String RECEIVED_BLOCKS = "Received blocks from peer";
+    public static final String COMPLETED_PULLING = "] completed pulling from neighbor...";
+    public static final String INITIATED_PUSHING = "Initiated pushing block list...";
+    public static final String NAME = "NAME";
+    public static final String COMPLETED_PUSHING = "] completed pushing!! sleep 1sec.";
+    public static final String REQUEST_PEER = "] REQUEST PEER";
+    public static final String CHUNK = " Chunk #";
+    public static final String RECEIVED_CHUNK = "Received Chunk #";
+    public static final String FROM_PEER = " from Peer ";
+    public static final String NOT_HAVE_CHUNK = "doesn't have Chunk #";
+    public static final String CLOSE_PEER = "] PEER";
+    public static final String OUT_PUT_FILE = "Output file is ";
+    public static final String UPLOAD_NEIGHBOUR = "] 's Upload Neighbor ";
+    public static final String DOWNLOAD_NEIGHBOUR = "] 's download Neighbor ";
+    public static final String COLON = ":";
+    public static final String REGISTER = "REGISTER";
+}
+
 class ClientSocket extends Thread {
 
     protected int peer_id;
@@ -23,7 +70,7 @@ class ClientSocket extends Thread {
     private void saveChunkFile(int x, byte[] chunk) {
         try {
             FileOutputStream fileOutputStream =
-                    new FileOutputStream("PEER" + this.peer_id + "Dir/" + x, false);
+                    new FileOutputStream(Constants.PEER + this.peer_id + Constants.DIR + x, false);
             fileOutputStream.write(chunk);
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -35,7 +82,7 @@ class ClientSocket extends Thread {
 
     public void intialiseSocket(Socket socket) {
         this.socket = socket;
-        System.out.println("[" + peerName + "] get connected from " + socket.getPort());
+        System.out.println(Constants.BRACE_OPEN + peerName + Constants.BRACE_CLOSE + socket.getPort());
         try {
             objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectInputStream = new ObjectInputStream(this.socket.getInputStream());
@@ -63,26 +110,27 @@ class ClientSocket extends Thread {
                 String msg = printCommands();
                 int id = -1;
                 switch (msg) {
-                    case "LIST":
+                    case Constants.LIST:
                         performListOperation();
                         break;
-                    case "REQUEST":
+                    case Constants.REQUEST:
                         requestChunk(id);
                         break;
-                    case "ASK":
+                    case Constants.ASK:
                         askChunk(id);
                         break;
-                    case "DATA":
+                    case Constants.DATA:
                         saveRecievedData(id);
                         break;
-                    case "CLOSE":
+                    case Constants.CLOSE:
                         objectOutputStream.close();
                         objectInputStream.close();
                         return;
                 }
             } catch (ClassNotFoundException | IOException e) {
                 e.printStackTrace();
-                System.out.println("[" + this.getName() + "]: Session ended.");
+                System.out.println(Constants.BRACE_OPEN + this.getName() +
+                        Constants.SESSION_ENDED);
                 return;
             }
         }
@@ -93,7 +141,7 @@ class ClientSocket extends Thread {
         byte[] chunk = (byte[]) this.objectInputStream.readObject();
         if (!this.current_block.containsKey(id)) {
             current_block.put(id, chunk);
-            System.out.println("Received Chunk #" + id);
+            System.out.println(Constants.RECIEVED_CHUNK + id);
             saveChunkFile(id, chunk);
         }
     }
@@ -122,10 +170,11 @@ class ClientSocket extends Thread {
     }
 
     private String printCommands() throws IOException, ClassNotFoundException {
-        System.out.println("[" + this.peerName + "] Peer is listening command:");
+        System.out.println(Constants.BRACE_OPEN + this.peerName + Constants.IS_LISTENING);
         Object msgObj = this.objectInputStream.readObject();
         String msg = (String) msgObj;
-        System.out.println("[" + this.peerName + "] Received message (" + msg + ")");
+        System.out.println(Constants.BRACE_OPEN + this.peerName + Constants.RECEIVED_MESSAGE
+                + msg + Constants.BRACKET_CLOSE);
         return msg;
     }
 }
@@ -145,7 +194,7 @@ public class Peer extends Thread {
     public static String peer_name = "";
     public final static int MAX_PEER = 5;
 
-    public static String merge_file_name = "merge.dat";
+    public static String merge_file_name = "";
 
     public static HashMap<Integer, byte[]> list_block_file = new HashMap<Integer, byte[]>();
     public static ArrayList<Integer> block_indx = new ArrayList<Integer>();
@@ -163,33 +212,33 @@ public class Peer extends Thread {
         int begin = (int) (1.0 * block_indx.size() / MAX_PEER * (peer_id % MAX_PEER));
 
         for (int i = begin; i < last; i++) {
-            TransmitMessageToOwner("REQUEST", oStream);
+            TransmitMessageToOwner(Constants.REQUEST, oStream);
             TransmitMessageToOwner(block_indx.get(i), oStream);
             int f = iStream.readInt();
             byte[] chunk = (byte[]) iStream.readObject();
             list_block_file.put(f, chunk);
-            System.out.println("Received Block #" + block_indx.get(i) + " from owner");
+            System.out.println(Constants.RECIEVED_BLOCK + block_indx.get(i) +
+                    Constants.FROM_OWNER);
             saveChunkFile(f, chunk);
         }
     }
 
     private void getChuckList(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
-        TransmitMessageToOwner("LIST", oStream);
+        TransmitMessageToOwner(Constants.LIST, oStream);
         block_indx = (ArrayList<Integer>) iStream.readObject();
     }
 
     private void getBootStrap(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
-        String message_to_owner = "Config 6 " + peer_port + " " + _download_port;
+        String message_to_owner = Constants.CONFIG + peer_port + Constants.SPACE + _download_port;
         TransmitMessageToOwner(message_to_owner, oStream);
-        TransmitMessageToOwner("REGISTER", oStream);
+        TransmitMessageToOwner(Constants.REGISTER, oStream);
         peer_id = iStream.readInt();
         peer_self_port = iStream.readInt();
-        peer_name = "PEER" + peer_id;
+        peer_name = Constants.PEER + peer_id;
         System.out.println(peer_id);
-        // Create a peerDir to save file chunk from server
-        File peerDir = new File(peer_name + "Dir");
+        File peerDir = new File(peer_name + Constants.DIR_1);
         if (!peerDir.exists()) {
             peerDir.mkdir();
         }
@@ -236,7 +285,7 @@ public class Peer extends Thread {
 
     private void saveChunkFile(int file_i, byte[] chunk) {
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(peer_name + "Dir/" + file_i,
+            FileOutputStream fileOutputStream = new FileOutputStream(peer_name + Constants.DIR + file_i,
                     false);
             fileOutputStream.write(chunk);
             fileOutputStream.flush();
@@ -254,7 +303,7 @@ public class Peer extends Thread {
         }
         try {
             performAfterCheckChunk();
-            System.out.println("Congo!! [" + peer_name + "] has completed downloading the file!!");
+            System.out.println(Constants.CONGO + peer_name + Constants.DOWNLOAD_COMPLETION);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -271,13 +320,13 @@ public class Peer extends Thread {
         if (true) {
             try {
                 FileOutputStream fileOutputStream =
-                        new FileOutputStream(peer_name + "Dir/summary.txt", false);
+                        new FileOutputStream(peer_name + Constants.SUMMARY_FILE, false);
                 StringBuilder stringBuilder = new StringBuilder();
                 for (int i = 0; i < Peer.block_indx.size(); i++) {
                     int q = Peer.block_indx.get(i);
                     if (Peer.list_block_file.containsKey(q)) {
                         stringBuilder.append(q);
-                        stringBuilder.append(" ");
+                        stringBuilder.append(Constants.SPACE);
                     }
                 }
                 fileOutputStream.write(stringBuilder.toString().getBytes());
@@ -298,7 +347,7 @@ public class Peer extends Thread {
             ClientSocket peer = new ClientSocket(Peer.peer_id, list_block_file);
             Socket p = null;
             try {
-                System.out.println("Peer is listening at Port " + peer_skt.getLocalPort());
+                System.out.println(Constants.PEER_LISTENING + peer_skt.getLocalPort());
                 p = peer_skt.accept();
                 initiatePeer(peer, p);
             } catch (IOException e) {
@@ -311,11 +360,11 @@ public class Peer extends Thread {
             throws InterruptedException, IOException, ClassNotFoundException {
         do {
 
-            TransmitMessageToOwner("PEER", oStream);
+            TransmitMessageToOwner(Constants.PEER, oStream);
             TransmitMessageToOwner(peer_id, oStream);
             this.peer_list = (HashMap<Integer, Integer>) iStream.readObject();
 
-            System.out.println("[" + this.peer_name + "] Ask bootstrap server for neighbors:");
+            System.out.println(Constants.BRACE_OPEN + this.peer_name + Constants.BOOTSTRAP_FINAL);
             this.peer_DL = (int) iStream.readObject();
             this.peer_UL = (int) iStream.readObject();
             this.port_DL = peer_list.containsKey(peer_DL) ? this.peer_list.get(this.peer_DL) : 0;
@@ -340,17 +389,17 @@ public class Peer extends Thread {
 
         System.out.println("==================");
         Thread.sleep(10000);
-        System.out.println("Establishing upload...");
-        System.out.println("Establishing download...");
+        System.out.println(Constants.ESTABLISHING_UPLOAD);
+        System.out.println(Constants.ESTABLISHING_DOWNLOAD);
 
-        Socket skt_up = new Socket("localhost", port_UL);
+        Socket skt_up = new Socket(Constants.LOCALHOST, port_UL);
         ObjectOutputStream objectOutputStreamUp = new ObjectOutputStream(skt_up.getOutputStream());
 
-        Socket skt_dwn = new Socket("localhost", port_DL);
+        Socket skt_dwn = new Socket(Constants.LOCALHOST, port_DL);
         ObjectOutputStream objectOutputStreamDwn = new ObjectOutputStream(skt_dwn.getOutputStream());
         ObjectInputStream objectInputStreamDwn = new ObjectInputStream(skt_dwn.getInputStream());
 
-        System.out.println("Connection Established!");
+        System.out.println(Constants.ESTABLISHED_CONNECTION);
         while (!checkChunk()) {
             processChunk(objectOutputStreamUp, objectOutputStreamDwn, objectInputStreamDwn);
             Thread.sleep(1000);
@@ -361,8 +410,8 @@ public class Peer extends Thread {
                               ObjectOutputStream objectOutputStreamDwn,
                               ObjectInputStream objectInputStreamDwn)
             throws IOException, ClassNotFoundException {
-        System.out.println("Received blocks from peer");
-        TransmitMessageToOwner("LIST", objectOutputStreamDwn);
+        System.out.println(Constants.RECEIVED_BLOCKS);
+        TransmitMessageToOwner(Constants.LIST, objectOutputStreamDwn);
         ArrayList<Integer> chunks = (ArrayList<Integer>) objectInputStreamDwn.readObject();
         for (int i = 0; i < chunks.size(); i++) {
             int q = chunks.get(i);
@@ -379,20 +428,22 @@ public class Peer extends Thread {
 
     private void pushFileBlock(ObjectOutputStream objectOutputStreamUp)
             throws IOException {
-        System.out.println("[" + Peer.peer_name + "] completed pulling from neighbor...");
-        System.out.println("Initiated pushing block list...");
+        System.out.println(Constants.BRACE_OPEN + Peer.peer_name +
+                Constants.COMPLETED_PULLING);
+        System.out.println(Constants.INITIATED_PUSHING);
         for (Integer block_index : Peer.block_indx) {
             int q = block_index;
             if (!Peer.list_block_file.containsKey(q)) {
                 continue;
             }
-            System.out.print(q + " ");
-            TransmitMessageToOwner("DATA", objectOutputStreamUp);
+            System.out.print(q + Constants.SPACE);
+            TransmitMessageToOwner(Constants.DATA, objectOutputStreamUp);
             TransmitMessageToOwner(q, objectOutputStreamUp);
             transmitData(objectOutputStreamUp, Peer.list_block_file.get(q));
         }
         System.out.println();
-        System.out.println("[" + Peer.peer_name + "] completed pushing!! sleep 1sec.");
+        System.out.println(Constants.BRACE_OPEN + Peer.peer_name +
+                Constants.COMPLETED_PUSHING);
     }
 
     private void sendBlocksToPeers(ObjectOutputStream objectOutputStreamDwn,
@@ -404,27 +455,28 @@ public class Peer extends Thread {
                 continue;
             }
 
-            System.out.println("[" + Peer.peer_name + "] REQUEST PEER" + peer_DL + " Chunk #" + q);
-            TransmitMessageToOwner("ASK", objectOutputStreamDwn);
+            System.out.println(Constants.BRACE_OPEN + Peer.peer_name + Constants.REQUEST_PEER + peer_DL
+                    + Constants.CHUNK + q);
+            TransmitMessageToOwner(Constants.ASK, objectOutputStreamDwn);
             TransmitMessageToOwner(q, objectOutputStreamDwn);
             if (objectInputStreamDwn.readInt() == 1) { //Means peer has that chunk
-                TransmitMessageToOwner("REQUEST", objectOutputStreamDwn);
+                TransmitMessageToOwner(Constants.REQUEST, objectOutputStreamDwn);
                 TransmitMessageToOwner(q, objectOutputStreamDwn);
                 int x = objectInputStreamDwn.readInt();
                 byte[] chunk = (byte[]) objectInputStreamDwn.readObject();
                 Peer.list_block_file.put(x, chunk);
-                System.out.println("Received Chunk #" +
-                        block_indx.get(i) + " from Peer " + peer_DL);
+                System.out.println(Constants.RECEIVED_CHUNK +
+                        block_indx.get(i) + Constants.FROM_PEER + peer_DL);
             } else {
-                System.out.println("[" + Peer.peer_name + "] PEER" +
-                        peer_DL + " doesn't have Chunk #" + q);
+                System.out.println(Constants.BRACE_OPEN + Peer.peer_name + Constants.CLOSE_PEER +
+                        peer_DL + Constants.NOT_HAVE_CHUNK + q);
             }
         }
     }
 
     private void initalize() {
         try {
-            Socket socket = new Socket("localhost", server_port);
+            Socket socket = new Socket(Constants.LOCALHOST, server_port);
             ObjectOutputStream oStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream iStream = new ObjectInputStream(socket.getInputStream());
 
@@ -433,15 +485,18 @@ public class Peer extends Thread {
 
             Random rand = new Random();
 
-            TransmitMessageToOwner("NAME", oStream);
+            TransmitMessageToOwner(Constants.NAME, oStream);
             merge_file_name = getMergeFileName(iStream);
 
-            System.out.println("Output file is " + merge_file_name);
+            System.out.println(Constants.OUT_PUT_FILE + merge_file_name);
 
             getUploadDownloadNeighbor(oStream, iStream);
 
-            System.out.println("[" + peer_name + "] 's Upload Neighbor " + peer_UL + ":" + port_UL);
-            System.out.println("[" + peer_name + "] Download Neighbor " + peer_DL + ":" + port_DL);
+            System.out.println(Constants.BRACE_OPEN + peer_name + Constants.UPLOAD_NEIGHBOUR + peer_UL
+                    + Constants.COLON + port_UL);
+            System.out.println(Constants.BRACE_OPEN + peer_name +
+                    Constants.DOWNLOAD_NEIGHBOUR + peer_DL +
+                    Constants.COLON + port_DL);
 
             (new Thread() {
                 @Override
