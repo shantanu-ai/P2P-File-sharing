@@ -1,4 +1,5 @@
-//package com.UFL;
+// package com.UFL;
+// package com.UFL;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -18,8 +19,8 @@ class Constants {
     public static final String CLOSE = "CLOSE";
     public static final String BRACE_OPEN = "[";
     public static final String CONNECTION_ESTABLISHED = "] connection established from ";
-    public static final String PEER_LIST ="[Owner] Peer list:";
-    public static final String PEER_U_D ="[Owner] Transmit Upload/Download peers";
+    public static final String PEER_LIST = "[Owner] Peer list:";
+    public static final String PEER_U_D = "[Owner] Transmit Upload/Download peers";
     public static final String OWNER_UP_RUN = "[Owner] Owner is up and running:";
     public static final String OWNER_GETS_MESSAGE = "[Owner] gets message (";
     public static final String FROM = ") from ";
@@ -27,8 +28,8 @@ class Constants {
     public static final String FILE_OWNER = "File Owner";
     public static final String WAITING_PEER = "is waiting for peers...";
     public static final String CONFIG = "CONFIG";
-    public static final String OWNER_DIR ="OwnerDir";
-    public static final String OWNER_DIR_1 ="OwnerDir/";
+    public static final String OWNER_DIR = "OwnerDir";
+    public static final String OWNER_DIR_1 = "OwnerDir/";
     public static final String BLOCK = "Block -->";
     public static final String BYTES = " bytes";
     public static final String OWNER_TOTAL = "[Owner] Total ";
@@ -114,19 +115,6 @@ class OwnerProcess extends Thread {
         }
     }
 
-    private static int generateIdPerPeer() {
-        int i = 0;
-        while (i < 100) {
-            if (FileOwner.config_peer.containsKey(i) &&
-                    (!FileOwner.list_peer.containsKey(i))) {
-                FileOwner.list_peer.put(i, (FileOwner.config_peer.get(i)).getPort());
-                return i;
-            }
-            i++;
-        }
-        return -1;
-    }
-
     private void performListOperation() throws IOException {
         ArrayList<Integer> arrayList = new ArrayList<Integer>(this.current_block.size());
         for (int x = 0; x < this.current_block.size(); x++) {
@@ -144,11 +132,29 @@ class OwnerProcess extends Thread {
         for (int _peer : FileOwner.list_peer.keySet()) {
             System.out.print(_peer + " ");
         }
-        System.out.println();
+        int peer_port = input_stream.readInt();
+        int download_port = input_stream.readInt();
+        System.out.println(peer_port + " " + download_port);
         System.out.println(Constants.PEER_U_D);
         transferMessageToPeer(FileOwner.list_peer);
-        transferMessageToPeer((Object) (FileOwner.config_peer.get(peer_id)).getDownLoadId());
-        transferMessageToPeer((Object) (FileOwner.config_peer.get(peer_id)).getUploadId());
+        int downLoad_neighbor_id =
+                FileOwner.master_DB.containsKey(download_port)
+                        ? FileOwner.master_DB.get(download_port) : 0;
+        transferMessageToPeer((Object) downLoad_neighbor_id);
+        int upload_neighbor_id = getUploadNeighbor(peer_port);
+        transferMessageToPeer((Object)upload_neighbor_id);
+    }
+
+    private int getUploadNeighbor(int peer_port) {
+        int upload_neighbor_id = 0;
+        for (Map.Entry<Integer, PortDB> entry : FileOwner.port_DB.entrySet()) {
+            if (entry.getValue().getDownload_port() == peer_port) {
+                int peer_id = entry.getValue().getPeer_port();
+                upload_neighbor_id = FileOwner.master_DB.get(peer_id);
+                break;
+            }
+        }
+        return upload_neighbor_id;
     }
 
     private void performCloseOperation()
@@ -167,12 +173,17 @@ class OwnerProcess extends Thread {
 
     private void performRegisterOperation()
             throws IOException {
-        int peer = this.generateIdPerPeer();
+        int peer = FileOwner.peer_id;
+        FileOwner.list_peer.put(FileOwner.peer_id, FileOwner.port);
         System.out.println(peer);
         System.out.println(FileOwner.list_peer);
-        int port = FileOwner.list_peer.get(peer);
+        int port = FileOwner.port;
+        System.out.println(port);
         transferMessageToPeer(peer);
         transferMessageToPeer(port);
+
+//        System.out.println("File: "+FileOwner.peer_id);
+//        System.out.println("Port: "+FileOwner.port);
     }
 
     private String initiate_run() {
@@ -209,40 +220,39 @@ class OwnerProcess extends Thread {
     }
 }
 
+class PortDB {
+    private int peer_port;
+    private int download_port;
+
+    PortDB(int _peer_port, int _download_port) {
+        peer_port = _peer_port;
+        download_port = _download_port;
+    }
+
+    public int getDownload_port() {
+        return download_port;
+    }
+
+    public int getPeer_port() {
+        return peer_port;
+    }
+}
+
 public class FileOwner {
     private String file_name = "";
     private int owner_port = 0;
     private ServerSocket owner_skt;
-    public static HashMap<Integer, PeerConfigModel> config_peer = new HashMap<Integer, PeerConfigModel>();
+    public static int peer_id;
+    public static int port;
     public static HashMap<Integer, Integer> list_peer = new HashMap<Integer, Integer>();
+    public static HashMap<Integer, Integer> master_DB = new HashMap<Integer, Integer>();
+    public static HashMap<Integer, PortDB> port_DB = new HashMap<Integer, PortDB>();
+
 
     // Peer configs
     public final int FILE_MAX_SIZE = 102400;
     public static HashMap<Integer, byte[]> file_block_list = new HashMap<Integer, byte[]>();
     public static String peerName = Constants.FILE_OWNER;
-
-    private void createConfig(int id, int peerPort, int downloadPort) {
-        if (this.config_peer.isEmpty()) {
-            this.config_peer.put(id, new PeerConfigModel(peerPort, 6, 0));
-            this.config_peer.put(6, new PeerConfigModel(downloadPort, 0, id));
-        } else {
-            int d_id = 0;
-            for (Map.Entry<Integer, PeerConfigModel> entry : config_peer.entrySet()) {
-                if (entry.getValue().getPort() == downloadPort) {
-                    d_id = entry.getKey();
-                    break;
-                }
-            }
-            if (!this.config_peer.containsKey(id)) {
-                this.config_peer.put(id, new PeerConfigModel(peerPort, d_id, 0));
-            } else {
-                PeerConfigModel pcm = this.config_peer.get(id);
-                this.config_peer.put(id, new PeerConfigModel(pcm.getPort(), d_id, pcm.getUploadId()));
-            }
-            PeerConfigModel pcm = this.config_peer.get(d_id);
-            this.config_peer.put(d_id, new PeerConfigModel(pcm.getPort(), pcm.getDownLoadId(), id));
-        }
-    }
 
     public FileOwner(int _owner_port, String _file_name) {
         if (_file_name != null && new File(_file_name).exists()) {
@@ -274,8 +284,9 @@ public class FileOwner {
                     int id = Integer.parseInt(split_string[1]);
                     int peer_port = Integer.parseInt(split_string[2]);
                     int download_port = Integer.parseInt(split_string[3]);
-                    createConfig(id, peer_port, download_port);
-                    this.printConfig();
+                    this.peer_id = id;
+                    this.port = peer_port;
+                    createDB(id, peer_port, download_port);
                 }
                 OwnerProcess op = new OwnerProcess();
                 op.initiateBlockPerFile(file_block_list);
@@ -289,15 +300,9 @@ public class FileOwner {
 
     }
 
-    private void printConfig() {
-        for (int name : config_peer.keySet()) {
-            PeerConfigModel peerConfigModel = config_peer.get(name);
-            System.out.println(name + Constants.SPACE +
-                    peerConfigModel.getPort() +
-                    Constants.SPACE +
-                    peerConfigModel.getDownLoadId() + Constants.SPACE +
-                    peerConfigModel.getUploadId());
-        }
+    private void createDB(int id, int peer_port, int download_port) {
+        master_DB.put(peer_port, id);
+        port_DB.put(id, new PortDB(peer_port, download_port));
     }
 
     private void divideFileIntoChunks() {
@@ -325,7 +330,7 @@ public class FileOwner {
         byte[] bChunk = Arrays.copyOfRange(buffer, 0, character);
         file_block_list.put(id, bChunk);
         System.out.println(Constants.BLOCK + id + Constants.EQUALS + character + Constants.BYTES);
-        FileOutputStream fso = new FileOutputStream(Constants.OWNER_DIR_1+ id, false);
+        FileOutputStream fso = new FileOutputStream(Constants.OWNER_DIR_1 + id, false);
         fso.write(bChunk);
         fso.flush();
         fso.close();
@@ -338,21 +343,22 @@ public class FileOwner {
 //        createConfig(5, 9004, 9003);
 //        createConfig(6, 9005, 9004);
 
-        for (int name : config_peer.keySet()) {
-            PeerConfigModel peerConfigModel = config_peer.get(name);
-            System.out.println(name + " " + peerConfigModel.getPort() + " " +
-                    peerConfigModel.getDownLoadId() + " " +
-                    peerConfigModel.getUploadId());
-        }
+//        for (int name : config_peer.keySet()) {
+//            PeerConfigModel peerConfigModel = config_peer.get(name);
+//            System.out.println(name + " " + peerConfigModel.getPort() + " " +
+//                    peerConfigModel.getDownLoadId() + " " +
+//                    peerConfigModel.getUploadId());
+//        }
     }
 
     public static void main(String[] args) {
         int owner_port = 0;
-        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall 19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/TCP-connection-1.pdf";
+        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/TCP-connection-1.pdf";
         if (args.length > 0) {
             owner_port = Integer.parseInt(args[0]);
             // file_name = args[1];
         }
+        System.out.println("");
         System.out.println("Owner Port: " + owner_port + " File Name: " + file_name);
         new FileOwner(owner_port, file_name).initiateOwner();
     }

@@ -21,7 +21,7 @@ class Constants {
     public static final String RECEIVED_MESSAGE = "] Received message (";
     public static final String RECIEVED_BLOCK = "Received Block #";
     public static final String FROM_OWNER = " from owner";
-    public static final String CONFIG = "Config 4 ";
+    public static final String CONFIG = "Config 3 ";
     public static final String SPACE = " ";
     public static final String DIR_1 = "Dir";
     public static final String CONGO = "CONGO !! [";
@@ -246,6 +246,30 @@ public class Peer extends Thread {
         getInitialChunksFromServer(oStream, iStream);
     }
 
+    public void getUploadDownloadNeighbor(ObjectOutputStream oStream, ObjectInputStream iStream)
+            throws InterruptedException, IOException, ClassNotFoundException {
+        do {
+
+            TransmitMessageToOwner(Constants.PEER, oStream);
+            TransmitMessageToOwner(peer_id, oStream);
+            TransmitMessageToOwner(peer_port, oStream);
+            TransmitMessageToOwner(_download_port, oStream);
+            this.peer_list = (HashMap<Integer, Integer>) iStream.readObject();
+
+            System.out.println(Constants.BRACE_OPEN + this.peer_name + Constants.BOOTSTRAP_FINAL);
+            this.peer_DL = (int)iStream.readObject();
+            this.peer_UL = (int) iStream.readObject();
+            System.out.println(this.peer_DL);
+            System.out.println(this.peer_UL);
+            this.port_DL = peer_list.containsKey(peer_DL) ? this.peer_list.get(this.peer_DL) : 0;
+            this.port_UL = peer_list.containsKey(peer_UL) ? this.peer_list.get(this.peer_UL) : 0;
+            System.out.println("Update" + this.peer_DL);
+            System.out.println("Update" + this.peer_UL);
+            Thread.sleep(1000);
+        } while (this.port_DL <= 0 || this.port_UL <= 0);
+
+    }
+
     public static void TransmitMessageToOwner(String msg,
                                               ObjectOutputStream stream)
             throws IOException {
@@ -354,24 +378,6 @@ public class Peer extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void getUploadDownloadNeighbor(ObjectOutputStream oStream, ObjectInputStream iStream)
-            throws InterruptedException, IOException, ClassNotFoundException {
-        do {
-
-            TransmitMessageToOwner(Constants.PEER, oStream);
-            TransmitMessageToOwner(peer_id, oStream);
-            this.peer_list = (HashMap<Integer, Integer>) iStream.readObject();
-
-            System.out.println(Constants.BRACE_OPEN + this.peer_name + Constants.BOOTSTRAP_FINAL);
-            this.peer_DL = (int) iStream.readObject();
-            this.peer_UL = (int) iStream.readObject();
-            this.port_DL = peer_list.containsKey(peer_DL) ? this.peer_list.get(this.peer_DL) : 0;
-            this.port_UL = peer_list.containsKey(peer_UL) ? this.peer_list.get(this.peer_UL) : 0;
-            Thread.sleep(1000);
-        } while (this.port_DL <= 0 || this.port_UL <= 0);
-
     }
 
     public String getMergeFileName(ObjectInputStream iStream)
@@ -530,6 +536,7 @@ public class Peer extends Thread {
             _peer_port = Integer.parseInt(args[1]);
             _download_port = Integer.parseInt(args[2]);
         }
+        //sout("Hello");
         new Peer(_server_port, _peer_port, _download_port).initalize();
     }
 }
