@@ -20,7 +20,7 @@ class Constants {
     public static final String BRACE_OPEN = "[";
     public static final String CONNECTION_ESTABLISHED = "] connection established from ";
     public static final String PEER_LIST = "[Owner] Peer list:";
-    public static final String PEER_U_D = "[Owner] Transmit Upload/Download peers";
+    public static final String PEER_U_D = "[Owner] Transmitting Upload/Download peers";
     public static final String OWNER_UP_RUN = "[Owner] Owner is up and running:";
     public static final String OWNER_GETS_MESSAGE = "[Owner] gets message (";
     public static final String FROM = ") from ";

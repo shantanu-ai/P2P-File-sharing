@@ -3,35 +3,41 @@
   <component name="ChangeListManager">
     <list default="true" id="492bc498-109a-400e-a2e3-56e5674704de" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Owner/FileOwner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Owner/PeerConfigModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Owner/TCP-connection-1.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Peer1/ClientSocket.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Peer1/Peer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Peer1/Peer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Peer1/Peer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/FileOwner.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/FileOwner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/FileOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/FileOwner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerProcess.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerProcess.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer2/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer2/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer2/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer2/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/TCP-connection-1-peer-2.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer3/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer3/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer3/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer3/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/TCP-connection-1-peer-3.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer4/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer4/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer4/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer4/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/TCP-connection-1-peer-4.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer5/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer5/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer5/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer5/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/ClientSocket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/Peer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/Peer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/FileOwner.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/FileOwner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/TCP-connection-1-peer-5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/TCP-connection-1-peer-6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/Constants.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/OwnerProcess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/P2p_Final/com/UFL/OwnerProcess.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -126,7 +132,7 @@
       <workItem from="1575007431622" duration="1317000" />
       <workItem from="1575311259310" duration="359000" />
       <workItem from="1575311840794" duration="263000" />
-      <workItem from="1575410006273" duration="17788000" />
+      <workItem from="1575410006273" duration="21373000" />
     </task>
     <servers />
   </component>
@@ -161,8 +167,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/UFL/FileOwner.java</url>
-          <line>130</line>
-          <option name="timeStamp" value="17" />
+          <line>176</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -28,7 +28,7 @@ class Constants {
     public static final String DOWNLOAD_COMPLETION = "] has completed downloading the file!!";
     public static final String SUMMARY_FILE = "Dir/summary.txt";
     public static final String PEER_LISTENING = "Peer is listening at Port ";
-    public static final String BOOTSTRAP_FINAL = "] Ask bootstrap server for neighbors:";
+    public static final String BOOTSTRAP_FINAL = "] Ask FileOwner for Upload and Download neighbor:";
     public static final String ESTABLISHING_UPLOAD = "Establishing upload...";
     public static final String ESTABLISHING_DOWNLOAD = "Establishing download...";
     public static final String ESTABLISHED_CONNECTION = "Connection established";
@@ -49,6 +49,8 @@ class Constants {
     public static final String DOWNLOAD_NEIGHBOUR = "] 's download Neighbor ";
     public static final String COLON = ":";
     public static final String REGISTER = "REGISTER";
+    public static final String DOWNLOAD_NEIGHBOR_ID = "Current Download neighbor: ";
+    public static final String UPLOAD_NEIGHBOR_ID = "Current Upload neighbor: ";
 }
 
 class ClientSocket extends Thread {
@@ -259,12 +261,10 @@ public class Peer extends Thread {
             System.out.println(Constants.BRACE_OPEN + this.peer_name + Constants.BOOTSTRAP_FINAL);
             this.peer_DL = (int)iStream.readObject();
             this.peer_UL = (int) iStream.readObject();
-            System.out.println(this.peer_DL);
-            System.out.println(this.peer_UL);
             this.port_DL = peer_list.containsKey(peer_DL) ? this.peer_list.get(this.peer_DL) : 0;
             this.port_UL = peer_list.containsKey(peer_UL) ? this.peer_list.get(this.peer_UL) : 0;
-            System.out.println("Update" + this.peer_DL);
-            System.out.println("Update" + this.peer_UL);
+            System.out.println(Constants.DOWNLOAD_NEIGHBOR_ID + this.peer_DL);
+            System.out.println(Constants.UPLOAD_NEIGHBOR_ID + this.peer_UL);
             Thread.sleep(1000);
         } while (this.port_DL <= 0 || this.port_UL <= 0);
 
@@ -531,12 +531,13 @@ public class Peer extends Thread {
         int _peer_port = 0;
         int _download_port = 0;
 
-        if (args.length > 0) {
+        if (args.length == 3) {
             _server_port = Integer.parseInt(args[0]);
             _peer_port = Integer.parseInt(args[1]);
             _download_port = Integer.parseInt(args[2]);
+            new Peer(_server_port, _peer_port, _download_port).initalize();
+        } else {
+            System.out.println("Argument length should be 3");
         }
-        //sout("Hello");
-        new Peer(_server_port, _peer_port, _download_port).initalize();
     }
 }

@@ -1,5 +1,4 @@
-// package com.UFL;
-// package com.UFL;
+//package com.UFL;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -20,7 +19,7 @@ class Constants {
     public static final String BRACE_OPEN = "[";
     public static final String CONNECTION_ESTABLISHED = "] connection established from ";
     public static final String PEER_LIST = "[Owner] Peer list:";
-    public static final String PEER_U_D = "[Owner] Transmit Upload/Download peers";
+    public static final String PEER_U_D = "[Owner] Transmitting Upload/Download peers";
     public static final String OWNER_UP_RUN = "[Owner] Owner is up and running:";
     public static final String OWNER_GETS_MESSAGE = "[Owner] gets message (";
     public static final String FROM = ") from ";
@@ -142,7 +141,7 @@ class OwnerProcess extends Thread {
                         ? FileOwner.master_DB.get(download_port) : 0;
         transferMessageToPeer((Object) downLoad_neighbor_id);
         int upload_neighbor_id = getUploadNeighbor(peer_port);
-        transferMessageToPeer((Object)upload_neighbor_id);
+        transferMessageToPeer((Object) upload_neighbor_id);
     }
 
     private int getUploadNeighbor(int peer_port) {
@@ -354,12 +353,16 @@ public class FileOwner {
     public static void main(String[] args) {
         int owner_port = 0;
         String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/TCP-connection-1.pdf";
-        if (args.length > 0) {
+        if (args.length == 1) {
             owner_port = Integer.parseInt(args[0]);
+            System.out.println("");
+            System.out.println("Owner Port: " + owner_port + " File Name: " + file_name);
+            new FileOwner(owner_port, file_name).initiateOwner();
             // file_name = args[1];
+        } else if(args.length == 0) {
+            System.out.println("Mention Port number");
+        } else {
+            System.out.println("Only one Argument is needed, i.e Port Number");
         }
-        System.out.println("");
-        System.out.println("Owner Port: " + owner_port + " File Name: " + file_name);
-        new FileOwner(owner_port, file_name).initiateOwner();
     }
 }
