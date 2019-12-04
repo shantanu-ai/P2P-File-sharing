@@ -1,8 +1,10 @@
+//package com.UFL;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.lang.*;
+
 
 class Constants {
     public static final String LIST = "LIST";
@@ -28,12 +30,12 @@ class Constants {
     public static final String DOWNLOAD_COMPLETION = "] has completed downloading the file!!";
     public static final String SUMMARY_FILE = "Dir/summary.txt";
     public static final String PEER_LISTENING = "Peer is listening at Port ";
-    public static final String BOOTSTRAP_FINAL = "] Ask bootstrap server for neighbors:";
+    public static final String BOOTSTRAP_FINAL = "] Asking for upload/download neighbor:";
     public static final String ESTABLISHING_UPLOAD = "Establishing upload...";
     public static final String ESTABLISHING_DOWNLOAD = "Establishing download...";
     public static final String ESTABLISHED_CONNECTION = "Connection established";
     public static final String LOCALHOST = "localhost";
-    public static final String RECEIVED_BLOCKS = "Received blocks from peer";
+    public static final String RECEIVED_BLOCKS = "Received blocks(download neighbor) from peer(port): ";
     public static final String COMPLETED_PULLING = "] completed pulling from neighbor...";
     public static final String INITIATED_PUSHING = "Initiated pushing block list...";
     public static final String NAME = "NAME";
@@ -42,15 +44,15 @@ class Constants {
     public static final String CHUNK = " Chunk #";
     public static final String RECEIVED_CHUNK = "Received Chunk #";
     public static final String FROM_PEER = " from Peer ";
-    public static final String NOT_HAVE_CHUNK = "doesn't have Chunk #";
+    public static final String NOT_HAVE_CHUNK = " doesn't have Chunk #";
     public static final String CLOSE_PEER = "] PEER";
     public static final String OUT_PUT_FILE = "Output file is ";
     public static final String UPLOAD_NEIGHBOUR = "] 's Upload Neighbor ";
     public static final String DOWNLOAD_NEIGHBOUR = "] 's download Neighbor ";
     public static final String COLON = ":";
     public static final String REGISTER = "REGISTER";
-    public static final String DOWNLOAD_NEIGHBOR_ID = "Current Download neighbor: ";
-    public static final String UPLOAD_NEIGHBOR_ID = "Current Upload neighbor: ";
+    public static final String DOWNLOAD_NEIGHBOR_ID = "Current Download neighbor(ID) Peer: ";
+    public static final String UPLOAD_NEIGHBOR_ID = "Current Upload neighbor(ID) Peer: ";
 }
 
 class ClientSocket extends Thread {
@@ -66,13 +68,16 @@ class ClientSocket extends Thread {
 
     public ClientSocket(int _peer_id, HashMap<Integer, byte[]> _list_block_file) {
         this.peer_id = _peer_id;
+        this.peerName = Integer.toString(this.peer_id);
         this.current_block = _list_block_file;
     }
 
     private void saveChunkFile(int x, byte[] chunk) {
         try {
+            System.out.println("Save Chunk");
             FileOutputStream fileOutputStream =
-                    new FileOutputStream(Constants.PEER + this.peer_id + Constants.DIR + x, false);
+                    new FileOutputStream(Constants.PEER
+                            + this.peer_id + Constants.DIR + x, false);
             fileOutputStream.write(chunk);
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -84,7 +89,8 @@ class ClientSocket extends Thread {
 
     public void intialiseSocket(Socket socket) {
         this.socket = socket;
-        System.out.println(Constants.BRACE_OPEN + peerName + Constants.BRACE_CLOSE + socket.getPort());
+        System.out.println(Constants.BRACE_OPEN + peerName +
+                Constants.BRACE_CLOSE + socket.getPort());
         try {
             objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
             objectInputStream = new ObjectInputStream(this.socket.getInputStream());
@@ -210,8 +216,10 @@ public class Peer extends Thread {
 
     private void getInitialChunksFromServer(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
-        int last = (int) (1.0 * block_indx.size() / MAX_PEER * ((peer_id % MAX_PEER) + 1));
-        int begin = (int) (1.0 * block_indx.size() / MAX_PEER * (peer_id % MAX_PEER));
+        int last = (int) (1.0 * block_indx.size()
+                / MAX_PEER * ((peer_id % MAX_PEER) + 1));
+        int begin = (int) (1.0 * block_indx.size()
+                / MAX_PEER * (peer_id % MAX_PEER));
 
         for (int i = begin; i < last; i++) {
             TransmitMessageToOwner(Constants.REQUEST, oStream);
@@ -265,11 +273,28 @@ public class Peer extends Thread {
             System.out.println(this.peer_UL);
             this.port_DL = peer_list.containsKey(peer_DL) ? this.peer_list.get(this.peer_DL) : 0;
             this.port_UL = peer_list.containsKey(peer_UL) ? this.peer_list.get(this.peer_UL) : 0;
-            System.out.println(Constants.DOWNLOAD_NEIGHBOR_ID + this.peer_DL);
-            System.out.println(Constants.UPLOAD_NEIGHBOR_ID + this.peer_UL);
+            printNeighborStatus();
+//            System.out.println(Constants.DOWNLOAD_NEIGHBOR_ID + this.peer_DL);
+//            System.out.println(Constants.UPLOAD_NEIGHBOR_ID + this.peer_UL);
             Thread.sleep(1000);
         } while (this.port_DL <= 0 || this.port_UL <= 0);
 
+    }
+
+    private void printNeighborStatus() {
+        if (port_UL == 0) {
+            System.out.println("Upload Neighbor is still not up");
+        } else {
+            System.out.println(Constants.UPLOAD_NEIGHBOR_ID +
+                    this.peer_UL + " is up and running!!");
+        }
+
+        if (peer_DL == 0) {
+            System.out.println("Download Neighbor is still not up");
+        } else {
+            System.out.println(Constants.DOWNLOAD_NEIGHBOR_ID +
+                    this.peer_DL + " is up and running!!");
+        }
     }
 
     public static void TransmitMessageToOwner(String msg,
@@ -311,6 +336,7 @@ public class Peer extends Thread {
 
     private void saveChunkFile(int file_i, byte[] chunk) {
         try {
+            System.out.println("Peer3");
             FileOutputStream fileOutputStream = new FileOutputStream(peer_name + Constants.DIR + file_i,
                     false);
             fileOutputStream.write(chunk);
@@ -418,16 +444,14 @@ public class Peer extends Thread {
                               ObjectOutputStream objectOutputStreamDwn,
                               ObjectInputStream objectInputStreamDwn)
             throws IOException, ClassNotFoundException {
-        System.out.println(Constants.RECEIVED_BLOCKS);
+        System.out.println(Constants.RECEIVED_BLOCKS + port_DL);
         TransmitMessageToOwner(Constants.LIST, objectOutputStreamDwn);
         ArrayList<Integer> chunks = (ArrayList<Integer>) objectInputStreamDwn.readObject();
         for (int i = 0; i < chunks.size(); i++) {
             int q = chunks.get(i);
-            if (Peer.list_block_file.containsKey(q)) {
-                System.out.print(q + "=>" + q + "\t");
-            } else {
-                System.out.print(q + "=> NEW\t");
-            }
+            if (Peer.list_block_file.containsKey(q)) System.out.print(q + ":=" + q + "\t");
+            else System.out.print(q + ":= Downloaded\t");
+
         }
         System.out.println();
         sendBlocksToPeers(objectOutputStreamDwn, objectInputStreamDwn);
@@ -438,7 +462,8 @@ public class Peer extends Thread {
             throws IOException {
         System.out.println(Constants.BRACE_OPEN + Peer.peer_name +
                 Constants.COMPLETED_PULLING);
-        System.out.println(Constants.INITIATED_PUSHING);
+        System.out.println(Constants.INITIATED_PUSHING
+                + " (upload neighbor) to Peer(port): " + port_UL);
         for (Integer block_index : Peer.block_indx) {
             int q = block_index;
             if (!Peer.list_block_file.containsKey(q)) {
@@ -532,14 +557,22 @@ public class Peer extends Thread {
         int _server_port = 0;
         int _peer_port = 0;
         int _download_port = 0;
-
-        if (args.length == 3) {
-            _server_port = Integer.parseInt(args[0]);
-            _peer_port = Integer.parseInt(args[1]);
-            _download_port = Integer.parseInt(args[2]);
-            new Peer(_server_port, _peer_port, _download_port).initalize();
-        } else {
-            System.out.println("Argument length should be 3");
+        try {
+            if (args.length == 3) {
+                _server_port = Integer.parseInt(args[0]);
+                _peer_port = Integer.parseInt(args[1]);
+                _download_port = Integer.parseInt(args[2]);
+                if (_peer_port == _download_port) {
+                    System.out.println("FileOwner only distributes the chunks, so peer port and download port should be " +
+                            "different as peer can only download from other peers, not from file owner..");
+                } else {
+                    new Peer(_server_port, _peer_port, _download_port).initalize();
+                }
+            } else {
+                System.out.println("Argument length should be 3");
+            }
+        } catch (Exception ex) {
+            System.out.println("Give Proper Input");
         }
     }
 }

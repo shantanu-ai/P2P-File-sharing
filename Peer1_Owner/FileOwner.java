@@ -1,4 +1,4 @@
-//package com.UFL;
+// package com.UFL;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -47,6 +47,19 @@ class OwnerProcess extends Thread {
 
     protected String file_name = "";
 
+    public OwnerProcess(HashMap<Integer, byte[]> block, String file_name,
+                        Socket socket,
+                        ObjectOutputStream _object_output_stream,
+                        ObjectInputStream _input_stream, int peer_port){
+        this.current_block = block;
+        this.file_name = file_name;
+        this.object_output_stream = _object_output_stream;
+        this.input_stream = _input_stream;
+        this.clientId = peer_port;
+        System.out.println(Constants.BRACE_OPEN + peer_name +
+                Constants.CONNECTION_ESTABLISHED + socket.getPort());
+    }
+
     public void transferMessageToPeer(Object msg) throws IOException {
         this.object_output_stream.writeObject(msg);
         this.performFlush();
@@ -60,23 +73,6 @@ class OwnerProcess extends Thread {
     public void performFlush() throws IOException {
         this.object_output_stream.flush();
         this.object_output_stream.reset();
-    }
-
-    public void initiateBlockPerFile(HashMap<Integer, byte[]> block) {
-        this.current_block = block;
-    }
-
-    public void initiateNameForCurrentFile(String file_name) {
-        this.file_name = file_name;
-    }
-
-    public void initiateCurrentNetwork(Socket socket,
-                                       ObjectOutputStream _object_output_stream,
-                                       ObjectInputStream _input_stream) {
-        this.object_output_stream = _object_output_stream;
-        this.input_stream = _input_stream;
-        System.out.println(Constants.BRACE_OPEN + peer_name +
-                Constants.CONNECTION_ESTABLISHED + socket.getPort());
     }
 
     protected int clientId = -1;
@@ -287,10 +283,8 @@ public class FileOwner {
                     this.port = peer_port;
                     createDB(id, peer_port, download_port);
                 }
-                OwnerProcess op = new OwnerProcess();
-                op.initiateBlockPerFile(file_block_list);
-                op.initiateNameForCurrentFile(this.file_name);
-                op.initiateCurrentNetwork(o_skt, objectOutputStream, inputStream);
+                OwnerProcess op = new OwnerProcess(file_block_list, this.file_name,
+                        o_skt, objectOutputStream, inputStream, this.port);
                 op.start();
             }
         } catch (Exception e) {
@@ -352,7 +346,7 @@ public class FileOwner {
 
     public static void main(String[] args) {
         int owner_port = 0;
-        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/TCP-connection-1.pdf";
+        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/test.pdf";
         if (args.length == 1) {
             owner_port = Integer.parseInt(args[0]);
             System.out.println("");

@@ -1,0 +1,9 @@
+Implementation:
+1. 1st Server starts
+2. Peer sends config peer_port download_port -> sever stores peer_port and download_port to HM
+3. Peer sends register -> server registers the peer to current active peer_list
+4. peer sends List -> server sends the list of chunks(only chunkids)
+5. peer calculates start and end index based on its id and asks server for the chunks (Request)
+6. peer iterates over the indexes of blocks and gets corresponding blocks from server by issuing a Request command.
+7. Peer then stores that chunk to its own HM list_block_file
+8. Then peer connects to others and gets all the files
