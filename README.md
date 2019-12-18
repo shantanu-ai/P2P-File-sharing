@@ -12,6 +12,31 @@
   
 # Requirement
 Requirement is specified in the <b>Project2.pdf</b> and <b>Project2.pptx</b> file
+
+# Compile
+<b>File owner</b>
+cd Peer1_Owner <br/>
+javac FileOwner.java
+
+<b>Peer2</b>
+cd Peer2 <br/>
+javac Peer.java
+
+<b>Peer3</b>
+cd Peer3 <br/>
+javac Peer2.java
+
+<b>Peer4</b>
+cd Peer4 <br/>
+javac Peer.java
+
+<b>Peer5</b>
+cd Peer5 <br/>
+javac Peer5.java
+
+<b>Peer6</b>
+cd Peer6 <br/>
+javac Peer6.java
  
 # How to run
 1. Start the file owner process, giving a listening port.
