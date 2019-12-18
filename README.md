@@ -34,9 +34,9 @@ javac Peer.java <br/>
 cd Peer5 <br/>
 javac Peer5.java <br/>
 
-<b>Peer6</b>
+<b>Peer6</b> <br/>
 cd Peer6 <br/>
-javac Peer6.java
+javac Peer6.java 
  
 # How to run
 1. Start the file owner process, giving a listening port.
