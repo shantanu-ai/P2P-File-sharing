@@ -1,4 +1,32 @@
 # P2P File Sharing
+1. no always-on server
+2. arbitrary end systems directly communicate
+3. peers request service from other peers, provide service in return to other peers
+     - self scalability – new peers bring new service capacity, as well as new service demands
+4. peers are intermittently connected and change IP addresses
+    - complex management
 <img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/images/p2p_pic.png" width="250" height="300">
 
-# Details will be added soon
+# Programming Environment
+  Java
+ 
+# How to run
+1. Start the file owner process, giving a listening port.
+2. Start five peer processes, one at a time, giving the file owner’s listening port, the
+peer’s listening port, and its download neighbor’s (another peer) listening port.
+3. Each peer connects to the server’s listening port. The latter creates a new thread to upload one or several file chunks to the peer, while its main thread goes back to
+listening for new peers.
+4. After receiving chunk(s) from the file owner, the peer stores them as separate file(s)
+and creates a summary file, listing the IDs of the chunks it has.
+5. The peer then proceeds with two new threads, with one thread listening to its upload
+neighbor to which it will upload file chunks, and the other thread connecting to its
+download neighbor.
+6. The peer requests for the chunk ID list from the download neighbor, compares with
+its own to find the missing ones, and randomly requests a missing chunk from the neighbor. In the meantime, it sends its own chunk ID list to its upload neighbor, and upon request uploads chunks to the neighbor.
+7. After a peer has all file chunks, it combines them for a single file.
+8. A peer MUST output its activity to its console whenever it receives a chunk, sends a chunk, receives a chunk ID list, sends out a chunk ID list, requests for chunks, or
+receives such a request.
+
+<img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Demo_Startup.png" width="500" height="500">
+
+
