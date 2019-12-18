@@ -15,8 +15,8 @@ Requirement is specified in the <b>Project2.pdf</b> and <b>Project2.pptx</b> fil
  
 # How to run
 1. Start the file owner process, giving a listening port.
-2. Start five peer processes, one at a time, giving the file owner’s listening port, the
-peer’s listening port, and its download neighbor’s (another peer) listening port.
+2. Start five peer processes as:
+<b>file owner, peer itself, download neighbor(another peer’s port) </b>
 3. Each peer connects to the server’s listening port. The latter creates a new thread to upload one or several file chunks to the peer, while its main thread goes back to
 listening for new peers.
 4. After receiving chunk(s) from the file owner, the peer stores them as separate file(s)
