@@ -1,5 +1,4 @@
-# Team members:
-Shantanu Ghosh(4311 - 4360)<br/>
-Shivam Agarwal (0319 - 3956)
+# P2P File Sharing
+![](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/images/Fullp2p.png)
 
 # Details will be added soon
