@@ -9,6 +9,9 @@
 
 # Programming Environment
   Java
+  
+# Requirement
+Requirement is specified in the <b>Project2.pdf</b> and <b>Project2.pptx</b> file
  
 # How to run
 1. Start the file owner process, giving a listening port.
