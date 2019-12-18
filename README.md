@@ -14,25 +14,25 @@
 Requirement is specified in the <b>Project2.pdf</b> and <b>Project2.pptx</b> file
 
 # Compile
-<b>File owner</b>
+<b>File owner</b> <br/>
 cd Peer1_Owner <br/>
-javac FileOwner.java
+javac FileOwner.java <br/>
 
-<b>Peer2</b>
+<b>Peer2</b> <br/>
 cd Peer2 <br/>
-javac Peer.java
+javac Peer.java <br/>
 
-<b>Peer3</b>
+<b>Peer3</b> <br/>
 cd Peer3 <br/>
-javac Peer2.java
+javac Peer2.java <br/>
 
-<b>Peer4</b>
+<b>Peer4</b> <br/>
 cd Peer4 <br/>
-javac Peer.java
+javac Peer.java <br/>
 
-<b>Peer5</b>
+<b>Peer5</b> <br/>
 cd Peer5 <br/>
-javac Peer5.java
+javac Peer5.java <br/>
 
 <b>Peer6</b>
 cd Peer6 <br/>
