@@ -59,7 +59,7 @@ class OwnerProcess extends Thread {
      * @param block                 file chunks
      * @param file_name             name of the file to be shared
      * @param socket                socket class that accepts connections from peer clients
-     * @param _object_output_stream ObjectInputStream that reads from the specified InputStream
+     * @param _object_output_stream ObjectOutputStream that writes to the specified OutputStream
      * @param _input_stream         deserialize primitive data and objects previously
      *                              written using an ObjectOutputStrea
      * @param peer_port             port number
@@ -462,11 +462,13 @@ public class FileOwner {
     }
 
     /**
-     * @param args
+     * Main method
+     *
+     * @param args: <File owner port>
      */
     public static void main(String[] args) {
         int owner_port = 0;
-        String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/test.pdf";
+        String file_name = "../test.pdf";
         if (args.length == 1) {
             owner_port = Integer.parseInt(args[0]);
             System.out.println("");

@@ -2,10 +2,97 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="492bc498-109a-400e-a2e3-56e5674704de" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/shantanughosh.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/shantanughosh.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/FileOwner.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/FileOwner.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Peer1_Owner/FileOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/FileOwner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/0" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/0" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/1" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/10" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/10" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/11" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/11" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/12" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/12" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/13" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/13" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/14" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/14" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/15" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/15" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/16" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/16" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/17" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/17" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/18" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/18" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/19" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/19" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/2" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/20" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/20" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/21" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/21" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/22" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/22" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/23" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/23" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/24" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/24" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/25" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/25" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/26" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/26" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/27" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/27" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/28" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/28" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/29" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/29" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/3" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/30" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/30" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/31" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/31" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/32" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/32" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/33" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/33" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/34" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/34" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/35" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/35" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/36" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/36" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/37" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/37" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/38" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/38" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/39" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/39" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/4" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/5" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/6" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/6" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/7" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/7" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/8" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/9" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerDir/9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/OwnerProcess.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/OwnerProcess.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer1_Owner/PortDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer1_Owner/PortDB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/16" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/16" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/17" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/17" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/18" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/18" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/19" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/19" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/20" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/20" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/21" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/21" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/22" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/22" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/23" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/23" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/24" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/24" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/25" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/25" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/26" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/26" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/27" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/27" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/28" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/28" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/29" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/29" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/30" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/30" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/31" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/31" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/PEER2Dir/summary.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/PEER2Dir/summary.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer2/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer2/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer3/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer3/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer4/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer4/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer5/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer5/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/ClientSocket.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/ClientSocket.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Constants.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Constants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Peer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Peer$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Peer.class" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Peer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Peer6/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Peer6/Peer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Peer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Peer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/UFL/FileOwner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/test.pdf" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +191,7 @@
       <workItem from="1575311259310" duration="359000" />
       <workItem from="1575311840794" duration="263000" />
       <workItem from="1575410006273" duration="41011000" />
-      <workItem from="1576630718228" duration="2670000" />
+      <workItem from="1576630718228" duration="5865000" />
     </task>
     <servers />
   </component>
@@ -129,32 +216,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/UFL/FileOwner.java</url>
-          <line>186</line>
+          <line>188</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/UFL/FileOwner.java</url>
-          <line>372</line>
+          <line>374</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Peer6/Peer.java</url>
-          <line>513</line>
+          <line>732</line>
           <option name="timeStamp" value="33" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/Peer6/Peer.java</url>
-          <line>514</line>
+          <line>733</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/UFL/FileOwner.java</url>
-          <line>276</line>
+          <line>278</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/UFL/FileOwner.java</url>
-          <line>382</line>
+          <line>384</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
       </breakpoints>

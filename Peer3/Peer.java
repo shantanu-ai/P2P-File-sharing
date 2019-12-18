@@ -1,11 +1,14 @@
 //package com.UFL;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.lang.*;
 
-
+/**
+ * Class containing all the string constants.
+ */
 class Constants {
     public static final String LIST = "LIST";
     public static final String REQUEST = "REQUEST";
@@ -55,6 +58,9 @@ class Constants {
     public static final String UPLOAD_NEIGHBOR_ID = "Current Upload neighbor(ID) Peer: ";
 }
 
+/**
+ * This class creates a client socket that spawns new threads for each neighbor.
+ */
 class ClientSocket extends Thread {
 
     protected int peer_id;
@@ -66,15 +72,26 @@ class ClientSocket extends Thread {
 
     protected HashMap<Integer, byte[]> current_block;
 
+    /**
+     * Creates a new client socket for each neighbor
+     *
+     * @param _peer_id         peer id
+     * @param _list_block_file list of file chunks
+     */
     public ClientSocket(int _peer_id, HashMap<Integer, byte[]> _list_block_file) {
         this.peer_id = _peer_id;
         this.peerName = Integer.toString(this.peer_id);
         this.current_block = _list_block_file;
     }
 
+    /**
+     * Saves file chunk.
+     *
+     * @param x     peer id
+     * @param chunk file chunk
+     */
     private void saveChunkFile(int x, byte[] chunk) {
         try {
-            System.out.println("Save Chunk");
             FileOutputStream fileOutputStream =
                     new FileOutputStream(Constants.PEER
                             + this.peer_id + Constants.DIR + x, false);
@@ -86,7 +103,11 @@ class ClientSocket extends Thread {
         }
     }
 
-
+    /**
+     * Initialise peer socket.
+     *
+     * @param socket peer socket
+     */
     public void intialiseSocket(Socket socket) {
         this.socket = socket;
         System.out.println(Constants.BRACE_OPEN + peerName +
@@ -99,18 +120,37 @@ class ClientSocket extends Thread {
         }
     }
 
+    /**
+     * Communicates with neighbor peer for transferring messages.
+     *
+     * @param message message to be transferred
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public void transmitToPeer(Object message) throws IOException {
         objectOutputStream.writeObject(message);
         objectOutputStream.flush();
         objectOutputStream.reset();
     }
 
+    /**
+     * Communicates with neighbor peer for transferring messages.
+     *
+     * @param message message to be transferred
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public void transmitToPeer(int message) throws IOException {
         objectOutputStream.writeInt(message);
         objectOutputStream.flush();
         objectOutputStream.reset();
     }
 
+    /**
+     * If this thread was constructed using a separate
+     * {@code Runnable} run object, then that
+     * {@code Runnable} object's {@code run} method is called;
+     * otherwise, this method does nothing and returns.
+     * Subclasses of {@code Thread} should override this method.
+     */
     @Override
     public void run() {
         while (true) {
@@ -144,6 +184,13 @@ class ClientSocket extends Thread {
         }
     }
 
+    /**
+     * Saves the received file chunks.
+     *
+     * @param id chunk id
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void saveRecievedData(int id) throws IOException, ClassNotFoundException {
         id = this.objectInputStream.readInt();
         byte[] chunk = (byte[]) this.objectInputStream.readObject();
@@ -154,6 +201,12 @@ class ClientSocket extends Thread {
         }
     }
 
+    /**
+     * Asks chunk from neighbors.
+     *
+     * @param id chunk id
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void askChunk(int id) throws IOException {
         if (this.current_block.containsKey(this.objectInputStream.readInt())) {
             transmitToPeer(1);
@@ -162,6 +215,12 @@ class ClientSocket extends Thread {
         }
     }
 
+    /**
+     * Requests chunk from neighbors.
+     *
+     * @param id chunk id
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void requestChunk(int id) throws IOException {
         id = this.objectInputStream.readInt();
         // Send that chunk
@@ -169,6 +228,11 @@ class ClientSocket extends Thread {
         transmitToPeer(this.current_block.get(id));
     }
 
+    /**
+     * Lists all the blocks.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performListOperation() throws IOException {
         ArrayList<Integer> q = new ArrayList<Integer>(this.current_block.size());
         for (Integer key : this.current_block.keySet()) {
@@ -177,6 +241,13 @@ class ClientSocket extends Thread {
         transmitToPeer(q);
     }
 
+    /**
+     * Prints the commands in the console.
+     *
+     * @return print command
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private String printCommands() throws IOException, ClassNotFoundException {
         System.out.println(Constants.BRACE_OPEN + this.peerName + Constants.IS_LISTENING);
         Object msgObj = this.objectInputStream.readObject();
@@ -187,6 +258,9 @@ class ClientSocket extends Thread {
     }
 }
 
+/**
+ * Creates a Peer that communicates with the file owner and other peers.
+ */
 public class Peer extends Thread {
     int server_port = 0;
     int peer_port = 0;
@@ -208,12 +282,28 @@ public class Peer extends Thread {
     public static ArrayList<Integer> block_indx = new ArrayList<Integer>();
     public static HashMap<Integer, Integer> peer_list = new HashMap<Integer, Integer>();
 
+    /**
+     * Creates a new peer.
+     *
+     * @param _serverPort  port of the server
+     * @param _peer_port   port of the peer
+     * @param _client_port port of the client
+     */
     public Peer(int _serverPort, int _peer_port, int _client_port) {
         this.server_port = _serverPort;
         this.peer_port = _peer_port;
         this._download_port = _client_port;
     }
 
+    /**
+     * Gets the initial chunks from the server.
+     *
+     * @param oStream ObjectOutputStream that writes to the specified OutputStream
+     * @param iStream ObjectInputStream deserializes primitive data and objects previously
+     *                written using an ObjectOutputStream
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void getInitialChunksFromServer(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
         int last = (int) (1.0 * block_indx.size()
@@ -233,12 +323,30 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Gets the lists of chunks.
+     *
+     * @param oStream ObjectOutputStream that writes to the specified OutputStream
+     * @param iStream ObjectInputStream deserializes primitive data and objects previously
+     *                written using an ObjectOutputStream
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void getChuckList(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
         TransmitMessageToOwner(Constants.LIST, oStream);
         block_indx = (ArrayList<Integer>) iStream.readObject();
     }
 
+    /**
+     * Bootstraps with the server.
+     *
+     * @param oStream ObjectOutputStream that writes to the specified OutputStream
+     * @param iStream ObjectInputStream deserializes primitive data and objects previously
+     *                written using an ObjectOutputStream
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void getBootStrap(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
         String message_to_owner = Constants.CONFIG + peer_port + Constants.SPACE + _download_port;
@@ -256,6 +364,16 @@ public class Peer extends Thread {
         getInitialChunksFromServer(oStream, iStream);
     }
 
+    /**
+     * Gets the upload and download neighbor from the file owner
+     *
+     * @param oStream ObjectOutputStream that writes to the specified OutputStream
+     * @param iStream ObjectInputStream deserializes primitive data and objects previously
+     *                written using an ObjectOutputStream
+     * @throws InterruptedException   * Constructs an InterruptedException with the specified detail message.
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     public void getUploadDownloadNeighbor(ObjectOutputStream oStream, ObjectInputStream iStream)
             throws InterruptedException, IOException, ClassNotFoundException {
         do {
@@ -281,6 +399,9 @@ public class Peer extends Thread {
 
     }
 
+    /**
+     * Prints the neighbors status.
+     */
     private void printNeighborStatus() {
         if (port_UL == 0) {
             System.out.println("Upload Neighbor is still not up");
@@ -297,6 +418,13 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Communicates with file owner for transferring messages.
+     *
+     * @param msg    transmits the message
+     * @param stream ObjectOutputStream that writes to the specified OutputStream
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public static void TransmitMessageToOwner(String msg,
                                               ObjectOutputStream stream)
             throws IOException {
@@ -305,6 +433,13 @@ public class Peer extends Thread {
         stream.reset();
     }
 
+    /**
+     * Communicates with file owner for transferring messages.
+     *
+     * @param value  transmits the message
+     * @param stream ObjectOutputStream that writes to the specified OutputStream
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public static void TransmitMessageToOwner(int value,
                                               ObjectOutputStream stream)
             throws IOException {
@@ -312,6 +447,13 @@ public class Peer extends Thread {
         stream.flush();
     }
 
+    /**
+     * Communicates with file owner for transferring messages.
+     *
+     * @param stream  ObjectOutputStream that writes to the specified OutputStream
+     * @param message transmits the message
+     * @throws IOException
+     */
     public static void transmitData(ObjectOutputStream stream,
                                     byte[] message)
             throws IOException {
@@ -320,6 +462,11 @@ public class Peer extends Thread {
         stream.reset();
     }
 
+    /**
+     * Performs check whether the chunk exists.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performAfterCheckChunk() throws IOException {
         File file = new File(merge_file_name);
         if (file.exists()) {
@@ -334,9 +481,14 @@ public class Peer extends Thread {
         fs.close();
     }
 
+    /**
+     * Saves the file chunk in the disk
+     *
+     * @param file_i file index
+     * @param chunk  file chunk
+     */
     private void saveChunkFile(int file_i, byte[] chunk) {
         try {
-            System.out.println("Peer3");
             FileOutputStream fileOutputStream = new FileOutputStream(peer_name + Constants.DIR + file_i,
                     false);
             fileOutputStream.write(chunk);
@@ -347,6 +499,11 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Checks the particular chunk
+     *
+     * @return boolean value whether that chunk exists or not
+     */
     public boolean checkChunk() {
         for (int key : block_indx) {
             if (!list_block_file.containsKey(key)) {
@@ -363,11 +520,22 @@ public class Peer extends Thread {
         return true;
     }
 
+    /**
+     * Creates a new peer thread.
+     *
+     * @param peer    peer soket
+     * @param _socket socket connection
+     */
     private void initiatePeer(ClientSocket peer, Socket _socket) {
         peer.intialiseSocket(_socket);
         peer.start();
     }
 
+    /**
+     * Creates a summary file.
+     *
+     * @param ch characters
+     */
     private void createBriefForEntireProcess(int ch) {
         if (true) {
             try {
@@ -392,6 +560,11 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Sets the connection.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void setConnectionToPeer() throws IOException {
         peer_skt = new ServerSocket(this.peer_self_port);
         while (true) {
@@ -408,6 +581,15 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Gets the file name of the merged file.
+     *
+     * @param iStream deserializes primitive data and objects previously
+     *                written using an ObjectOutputStream
+     * @return the merged file name
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     public String getMergeFileName(ObjectInputStream iStream)
             throws IOException, ClassNotFoundException {
         String base_name = new File((String) iStream.readObject()).
@@ -416,6 +598,13 @@ public class Peer extends Thread {
                 + base_name.substring(base_name.lastIndexOf('.') + 1);
     }
 
+    /**
+     * Sets ObjectOutputStream and ObjectInputStream
+     *
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws InterruptedException   Constructs an InterruptedException with the specified detail message
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     public void executeRun()
             throws IOException,
             InterruptedException,
@@ -440,6 +629,16 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Processes each chunk
+     *
+     * @param objectOutputStreamUp  ObjectOutputStream that writes to the specified OutputStream
+     * @param objectOutputStreamDwn ObjectOutputStream that writes to the specified OutputStream
+     * @param objectInputStreamDwn  deserializes primitive data and objects previously
+     *                              written using an ObjectOutputStream
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void processChunk(ObjectOutputStream objectOutputStreamUp,
                               ObjectOutputStream objectOutputStreamDwn,
                               ObjectInputStream objectInputStreamDwn)
@@ -458,6 +657,12 @@ public class Peer extends Thread {
         pushFileBlock(objectOutputStreamUp);
     }
 
+    /**
+     * Uploads file blocks to upload neighbor
+     *
+     * @param objectOutputStreamUp ObjectOutputStream that writes to the specified OutputStream
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void pushFileBlock(ObjectOutputStream objectOutputStreamUp)
             throws IOException {
         System.out.println(Constants.BRACE_OPEN + Peer.peer_name +
@@ -479,6 +684,15 @@ public class Peer extends Thread {
                 Constants.COMPLETED_PUSHING);
     }
 
+    /**
+     * Transmits file chunks to neighbors
+     *
+     * @param objectOutputStreamDwn ObjectOutputStream that writes to the specified OutputStream
+     * @param objectInputStreamDwn  deserializes primitive data and objects previously
+     *                              written using an ObjectOutputStream
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void sendBlocksToPeers(ObjectOutputStream objectOutputStreamDwn,
                                    ObjectInputStream objectInputStreamDwn)
             throws IOException, ClassNotFoundException {
@@ -507,6 +721,9 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Initialises each peer
+     */
     private void initalize() {
         try {
             Socket socket = new Socket(Constants.LOCALHOST, server_port);
@@ -553,6 +770,11 @@ public class Peer extends Thread {
         }
     }
 
+    /**
+     * Main method
+     *
+     * @param args: <File owner port> <Peer port> <Download neighbor port>
+     */
     public static void main(String[] args) {
         int _server_port = 0;
         int _peer_port = 0;

@@ -59,8 +59,9 @@ class OwnerProcess extends Thread {
      * @param block                 file chunks
      * @param file_name             name of the file to be shared
      * @param socket                socket class that accepts connections from peer clients
-     * @param _object_output_stream ObjectInputStream that reads from the specified InputStream
-     * @param _input_stream         deserialize primitive data and objects previously
+     * @param _object_output_stream ObjectOutputStream that writes to the specified OutputStream
+     * @param _input_stream         ObjectInputStream deserializes primitive data and objects previously
+     *                              written using an ObjectOutputStream
      *                              written using an ObjectOutputStrea
      * @param peer_port             port number
      */
@@ -80,7 +81,7 @@ class OwnerProcess extends Thread {
     /**
      * Communicates with peer for transferring messages.
      *
-     * @param msg message to be transferred.
+     * @param msg message to be transferred
      * @throws IOException if an I/O error occurs while reading stream header
      */
     public void transferMessageToPeer(Object msg) throws IOException {
@@ -89,6 +90,7 @@ class OwnerProcess extends Thread {
     }
 
     /**
+     * x
      * Communicates with peer for transferring messages.
      *
      * @param msg message to be transferred.
@@ -281,7 +283,6 @@ class OwnerProcess extends Thread {
      * {@code Runnable} run object, then that
      * {@code Runnable} object's {@code run} method is called;
      * otherwise, this method does nothing and returns.
-     * <p>
      * Subclasses of {@code Thread} should override this method.
      */
     @Override
@@ -344,6 +345,7 @@ public class FileOwner {
 
     /**
      * Creates the FileOwner that distributes the file chunks to different peers.
+     *
      * @param _owner_port
      * @param _file_name
      */
@@ -396,8 +398,9 @@ public class FileOwner {
 
     /**
      * Creates Master database which stores different peers and their ports.
-     * @param id peer id
-     * @param peer_port peer port
+     *
+     * @param id            peer id
+     * @param peer_port     peer port
      * @param download_port port of download neighbor
      */
     private void createDB(int id, int peer_port, int download_port) {
@@ -431,9 +434,10 @@ public class FileOwner {
 
     /**
      * Creates the file blocks
-     * @param buffer buffer size
+     *
+     * @param buffer    buffer size
      * @param character characters
-     * @param id chunk id
+     * @param id        chunk id
      * @throws IOException if an I/O error occurs while reading stream header
      */
     private void perFormFileChunks(byte[] buffer, int character, int id) throws IOException {
@@ -462,7 +466,8 @@ public class FileOwner {
     }
 
     /**
-     * @param args
+     * Main method
+     * @param args <File owner port>
      */
     public static void main(String[] args) {
         int owner_port = 0;
