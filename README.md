@@ -34,8 +34,9 @@ receives such a request.
 
 # Post Completion:
 After completion the file will be downloaded to each of the peer. Plus inside each Peer on Peer<id>Dir folder will be created where all the file chunks and a summary file which contains the chunk ids that the peer got from the owner will be present.
+A detailed demo video can be found as <b>demo.mp4</b> file.
 <img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Demo_Complete.png" width="1000" height="750">
      
-A detailed demo video can be found as <b>demo.mp4</b> file.
+
 
 
