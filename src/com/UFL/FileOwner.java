@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class containing all the string constants.
+ */
 class Constants {
     public static final String LIST = "LIST";
     public static final String NAME = "NAME";
@@ -37,6 +40,9 @@ class Constants {
     public static final String SPACE = " ";
 }
 
+/**
+ * This class contains all the methods required by the File Owner.
+ */
 class OwnerProcess extends Thread {
     protected ObjectOutputStream object_output_stream;
     protected ObjectInputStream input_stream;
@@ -47,10 +53,21 @@ class OwnerProcess extends Thread {
 
     protected String file_name = "";
 
+    /**
+     * Creates the Owner process that communicates with peers for all the transactions.
+     *
+     * @param block                 file chunks
+     * @param file_name             name of the file to be shared
+     * @param socket                socket class that accepts connections from peer clients
+     * @param _object_output_stream ObjectInputStream that reads from the specified InputStream
+     * @param _input_stream         deserialize primitive data and objects previously
+     *                              written using an ObjectOutputStrea
+     * @param peer_port             port number
+     */
     public OwnerProcess(HashMap<Integer, byte[]> block, String file_name,
                         Socket socket,
                         ObjectOutputStream _object_output_stream,
-                        ObjectInputStream _input_stream, int peer_port){
+                        ObjectInputStream _input_stream, int peer_port) {
         this.current_block = block;
         this.file_name = file_name;
         this.object_output_stream = _object_output_stream;
@@ -60,16 +77,33 @@ class OwnerProcess extends Thread {
                 Constants.CONNECTION_ESTABLISHED + socket.getPort());
     }
 
+    /**
+     * Communicates with peer for transferring messages.
+     *
+     * @param msg message to be transferred.
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public void transferMessageToPeer(Object msg) throws IOException {
         this.object_output_stream.writeObject(msg);
         this.performFlush();
     }
 
+    /**
+     * Communicates with peer for transferring messages.
+     *
+     * @param msg message to be transferred.
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public void transferMessageToPeer(int msg) throws IOException {
         this.object_output_stream.writeInt(msg);
         this.performFlush();
     }
 
+    /**
+     * Flushes the ObjectOutputStream.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     public void performFlush() throws IOException {
         this.object_output_stream.flush();
         this.object_output_stream.reset();
@@ -77,6 +111,14 @@ class OwnerProcess extends Thread {
 
     protected int clientId = -1;
 
+    /**
+     * Sends response to every peer.
+     *
+     * @param message message to be transferred.
+     * @param x
+     * @throws IOException            if an I/O error occurs while reading stream header
+     * @throws ClassNotFoundException Class of a serialized object cannot be found
+     */
     private void replyToIndividualPeerRequest(String message, int x)
             throws IOException,
             ClassNotFoundException {
@@ -110,6 +152,11 @@ class OwnerProcess extends Thread {
         }
     }
 
+    /**
+     * Lists all the blocks.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performListOperation() throws IOException {
         ArrayList<Integer> arrayList = new ArrayList<Integer>(this.current_block.size());
         for (int x = 0; x < this.current_block.size(); x++) {
@@ -120,6 +167,11 @@ class OwnerProcess extends Thread {
         transferMessageToPeer(arrayList);
     }
 
+    /**
+     * Sends download and upload neighbor to individual peer.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performPeerOperation()
             throws IOException {
         System.out.print(Constants.PEER_LIST);
@@ -140,6 +192,12 @@ class OwnerProcess extends Thread {
         transferMessageToPeer((Object) upload_neighbor_id);
     }
 
+    /**
+     * Gets the upload neighbor of a peer.
+     *
+     * @param peer_port peer port
+     * @return
+     */
     private int getUploadNeighbor(int peer_port) {
         int upload_neighbor_id = 0;
         for (Map.Entry<Integer, PortDB> entry : FileOwner.port_DB.entrySet()) {
@@ -152,6 +210,11 @@ class OwnerProcess extends Thread {
         return upload_neighbor_id;
     }
 
+    /**
+     * Closes the output stream.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performCloseOperation()
             throws IOException {
         object_output_stream.close();
@@ -159,6 +222,12 @@ class OwnerProcess extends Thread {
         FileOwner.list_peer.remove(clientId);
     }
 
+    /**
+     * Transfer the message to different peer.
+     *
+     * @param x
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performRequestOperation(int x)
             throws IOException {
         x = this.input_stream.readInt();
@@ -166,6 +235,11 @@ class OwnerProcess extends Thread {
         transferMessageToPeer(this.current_block.get(x));
     }
 
+    /**
+     * Registers a new peer to Master DB.
+     *
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void performRegisterOperation()
             throws IOException {
         int peer = FileOwner.peer_id;
@@ -181,6 +255,11 @@ class OwnerProcess extends Thread {
 //        System.out.println("Port: "+FileOwner.port);
     }
 
+    /**
+     * Spawns new thread for each peer.
+     *
+     * @return
+     */
     private String initiate_run() {
         System.out.println(Constants.OWNER_UP_RUN);
         Object input_from_peer;
@@ -197,6 +276,14 @@ class OwnerProcess extends Thread {
         return msg;
     }
 
+    /**
+     * If this thread was constructed using a separate
+     * {@code Runnable} run object, then that
+     * {@code Runnable} object's {@code run} method is called;
+     * otherwise, this method does nothing and returns.
+     * <p>
+     * Subclasses of {@code Thread} should override this method.
+     */
     @Override
     public void run() {
         while (true) {
@@ -215,6 +302,9 @@ class OwnerProcess extends Thread {
     }
 }
 
+/**
+ * Class maintaining download and upload ports of different peers.
+ */
 class PortDB {
     private int peer_port;
     private int download_port;
@@ -233,6 +323,9 @@ class PortDB {
     }
 }
 
+/**
+ * Class containing all the methods required by a FileOwner.
+ */
 public class FileOwner {
     private String file_name = "";
     private int owner_port = 0;
@@ -249,6 +342,11 @@ public class FileOwner {
     public static HashMap<Integer, byte[]> file_block_list = new HashMap<Integer, byte[]>();
     public static String peerName = Constants.FILE_OWNER;
 
+    /**
+     * Creates the FileOwner that distributes the file chunks to different peers.
+     * @param _owner_port
+     * @param _file_name
+     */
     public FileOwner(int _owner_port, String _file_name) {
         if (_file_name != null && new File(_file_name).exists()) {
             this.file_name = _file_name;
@@ -264,6 +362,9 @@ public class FileOwner {
         this.divideFileIntoChunks();
     }
 
+    /**
+     * Initiates the File Owner process.
+     */
     public void initiateOwner() {
         try {
             while (true) {
@@ -293,11 +394,20 @@ public class FileOwner {
 
     }
 
+    /**
+     * Creates Master database which stores different peers and their ports.
+     * @param id peer id
+     * @param peer_port peer port
+     * @param download_port port of download neighbor
+     */
     private void createDB(int id, int peer_port, int download_port) {
         master_DB.put(peer_port, id);
         port_DB.put(id, new PortDB(peer_port, download_port));
     }
 
+    /**
+     * Divides the file into various chunks.
+     */
     private void divideFileIntoChunks() {
         try {
             File sepDir = new File(Constants.OWNER_DIR);
@@ -319,6 +429,13 @@ public class FileOwner {
         }
     }
 
+    /**
+     * Creates the file blocks
+     * @param buffer buffer size
+     * @param character characters
+     * @param id chunk id
+     * @throws IOException if an I/O error occurs while reading stream header
+     */
     private void perFormFileChunks(byte[] buffer, int character, int id) throws IOException {
         byte[] bChunk = Arrays.copyOfRange(buffer, 0, character);
         file_block_list.put(id, bChunk);
@@ -344,6 +461,9 @@ public class FileOwner {
 //        }
     }
 
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         int owner_port = 0;
         String file_name = "/Users/shantanughosh/Desktop/Shantanu_MS/Fall_19/CN/Projects/P2p_Final/GitHub/Bittorrent-CN/test.pdf";
@@ -353,7 +473,7 @@ public class FileOwner {
             System.out.println("Owner Port: " + owner_port + " File Name: " + file_name);
             new FileOwner(owner_port, file_name).initiateOwner();
             // file_name = args[1];
-        } else if(args.length == 0) {
+        } else if (args.length == 0) {
             System.out.println("Mention Port number");
         } else {
             System.out.println("Only one Argument is needed, i.e Port Number");
