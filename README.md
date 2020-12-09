@@ -11,7 +11,8 @@
   Java
   
 # Requirement
-Requirement is specified in the <b>Project2.pdf</b> and <b>Project2.pptx</b> file
+Requirement is specified in the [Project2.pdf](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Project2.pdf) 
+and [Project2.pptx](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Project2.pptx) file.
 
 # Compile
 <b>File owner</b> <br/>
