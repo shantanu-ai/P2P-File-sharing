@@ -56,6 +56,8 @@ its own to find the missing ones, and randomly requests a missing chunk from the
 8. A peer MUST output its activity to its console whenever it receives a chunk, sends a chunk, receives a chunk ID list, sends out a chunk ID list, requests for chunks, or
 receives such a request.
 
+A demo video can be found at [here](https://youtu.be/yf0M3uXAPNc)
+
 <img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Demo_Startup.png" width="1000" height="750">
 
 # Post Completion:
