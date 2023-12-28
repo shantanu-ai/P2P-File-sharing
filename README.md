@@ -40,7 +40,8 @@ cd Peer6 <br/>
 javac Peer6.java 
 
 # Demo
-[![Everything Is AWESOME](https://img.youtube.com/vi/yf0M3uXAPNc/0.jpg)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb "Everything Is AWESOME")
+[![Alt text](https://img.youtube.com/vi/yf0M3uXAPNc/0.jpg)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb)
+
  
 # How to run
 1. Start the file owner process, giving a listening port.
