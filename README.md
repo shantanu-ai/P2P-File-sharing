@@ -40,7 +40,7 @@ cd Peer6 <br/>
 javac Peer6.java 
 
 # Demo
-<iframe width="560" height="315" src="https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb" width="600" height="400"></iframe>
  
 # How to run
 1. Start the file owner process, giving a listening port.
