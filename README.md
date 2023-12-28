@@ -40,7 +40,7 @@ cd Peer6 <br/>
 javac Peer6.java 
 
 # Demo
-[![Alt text](https://img.youtube.com/vi/yf0M3uXAPNc/0.jpg)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb)
+[![Alt text](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/images/demo.png)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb)
 
  
 # How to run
