@@ -39,7 +39,8 @@ javac Peer5.java <br/>
 cd Peer6 <br/>
 javac Peer6.java 
 
-# Demo
+# Demo video
+Click on the following link to get a live demo of the project.
 [![Alt text](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/images/demo.png)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb)
 
  
