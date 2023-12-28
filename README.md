@@ -38,6 +38,9 @@ javac Peer5.java <br/>
 <b>Peer6</b> <br/>
 cd Peer6 <br/>
 javac Peer6.java 
+
+# Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
  
 # How to run
 1. Start the file owner process, giving a listening port.
@@ -56,7 +59,6 @@ its own to find the missing ones, and randomly requests a missing chunk from the
 8. A peer MUST output its activity to its console whenever it receives a chunk, sends a chunk, receives a chunk ID list, sends out a chunk ID list, requests for chunks, or
 receives such a request.
 
-**A demo video can be found at [here](https://youtu.be/yf0M3uXAPNc)**
 
 <img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Demo_Startup.png" width="1000" height="750">
 
