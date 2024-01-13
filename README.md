@@ -41,7 +41,8 @@ javac Peer6.java
 
 # Demo video
 Click on the following link to get a live demo of the project.
-[![Alt text](https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/images/demo.png)](https://www.youtube.com/embed/yf0M3uXAPNc?si=u5ALwae2DTXVznsb)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yf0M3uXAPNc?si=eagoDN9Dt95qrRFf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
  
 # How to run
