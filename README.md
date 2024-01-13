@@ -62,8 +62,7 @@ its own to find the missing ones, and randomly requests a missing chunk from the
 receives such a request.
 
 
-<img src="https://github.com/Shantanu48114860/P2P-File-sharing/blob/master/Demo_Startup.png" width="1000" height="750">
-
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yf0M3uXAPNc?si=eagoDN9Dt95qrRFf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 # Post Completion:
 After completion the file will be downloaded to each of the peer. Plus inside each Peer on Peer<id>Dir folder will be created where all the file chunks and a summary file which contains the chunk ids that the peer got from the owner will be present.
 A detailed demo video can be found as <b>demo.mp4</b> file.
